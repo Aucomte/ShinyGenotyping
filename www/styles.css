@@ -1,0 +1,161 @@
+
+.home {
+	text-align: justify;
+	font-size: medium;
+	font-family: "Times New Roman", Times, serif;
+	margin : 30px 30px 30px 30px;
+}
+.resume {
+	text-align: center;
+	text-indent: 40px each-line;
+	font-size: 30px;
+	font-family: "Times New Roman", Times, serif;
+	margin : 20px 20px 20px 20px;
+}
+
+.titlebox{
+    background-color:  #3C3C3C;
+    align-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.main-header {
+	position: relative;
+    max-height: 150px;
+	z-index: 1030;
+	border-bottom: 3px solid #3C3C3C;
+}
+.main-header .logo{
+    line-height: 100px;
+    height: 100px;
+}
+
+.navbar{
+    height: 300;
+}
+
+.resumebox{
+    border-bottom: 2px solid #3C3C3C;
+}
+
+.title {
+	text-align: center;
+	margin : 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-size: 80px;
+}
+
+.content-wrapper{
+    background-color: white;
+}
+
+.box {
+    -webkit-box-shadow: none; 
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-top: none;
+    outline: none;
+}
+
+.box1 {
+     -webkit-box-shadow: none; 
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #3C3C3C;
+    background-color: #f0f0f5;
+    outline: none;
+}
+.box2 {
+    -webkit-box-shadow: none; 
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 2px solid #626E60;
+    background-color: #3C3C3C;
+    border-radius: 25px;
+    color: white;
+    /*font-weight:bold;*/
+    outline: none;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+}
+.action-button{
+  background-color: #3d3d5c;
+  color: #ffffff;
+}
+
+/* logo */
+.skin-yellow .main-header .logo {
+					  background-color: #626E60;
+					  }
+
+/* logo when hovered */
+.skin-yellow .main-header .logo:hover {
+					  background-color: #626E60;
+					  }
+
+/* navbar (rest of the header) */
+.skin-yellow .main-header .navbar {
+					  background-color: #626E60; 
+					  }
+
+/* main sidebar */
+.skin-yellow .main-sidebar {
+					  background-color: #626E60; 
+					  }
+
+/* active selected tab in the sidebarmenu */
+.skin-yellow .main-sidebar .sidebar .sidebar-menu .active a{
+					  background-color: #3C3C3C;
+					  color: white;
+            border-left-color: #3C3C3C; 
+					  }
+
+/* other links in the sidebarmenu */
+.skin-yellow .main-sidebar .sidebar .sidebar-menu a{
+					  background-color: #626E60;
+					  color: #FFFFFF;
+				      border-radius: 20px;
+					  }
+
+/* other links in the sidebarmenu when hovered */
+ .skin-yellow .main-sidebar .sidebar .sidebar-menu a:hover{
+					  background-color: #3C3C3C;
+					  color: #FFFFFF;
+					  border-radius: 20px;
+                      border-left-color: #3C3C3C; 
+					  }
+
+/* toggle button when hovered  */
+ .skin-yellow .main-header .navbar .sidebar-toggle:hover{
+					  background-color: #3C3C3C;
+					  color: #FFFFFF;
+					  border-radius: 20px;
+                      border-left-color: #3C3C3C;
+					  }
+
+.skin-yellow .main-header .navbar .sidebar-toggle{
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+.sidebar-menu {
+	list-style: none;
+	margin: 70px 10px 10px 0px;
+	padding: 0;
+    width: auto;
+}
+
+.sidebar-menu > li {
+	position: relative;
+	margin: 0px 0px 10px 0px;
+	padding: 0;
+}
+
+.pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
