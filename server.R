@@ -165,7 +165,7 @@ server <-function(input,output,session){
    observeEvent(input$Submitpca, ignoreInit = TRUE, {
      sr$checkboxpca = input$checkboxpca
      sr$checkboxpcasup = input$checkboxpcasup
-     updateSelectInput(session, "colsupDiv", choices = sr$colnames, choices=sr$checkboxpcasup)
+     updateSelectInput(session, "colsupDiv", choices = sr$colnames, selected=sr$checkboxpcasup)
      sr$axeschoices = input$axeschoices
      sr$outpca = calculPCA(sr$table, sr$checkboxpca, sr$checkboxpcasup)
      output$pcaInd <- renderPlot({
