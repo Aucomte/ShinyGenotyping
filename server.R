@@ -20,7 +20,8 @@ server <-function(input,output,session){
     axeschoices = "axe1 vs axe2",
     checkboxcolDiv  = NULL,
     colsupDiv = NULL,
-    archive = NULL
+    archive = NULL,
+    xvm.stat = NULL
   )
   
   ## input dataset
@@ -220,9 +221,10 @@ server <-function(input,output,session){
      sr$checkboxcolDiv  = input$checkboxcolDiv
      sr$colsupDiv = input$colsupDiv
      sr$archive = diversitybyloc(sr$table, sr$checkboxcolDiv, sr$colsupDiv)
+     sr$xvm.stat = genind2hierfstat(sr$archive$out1)
+     print(sr$xvm.stat)
      output$heatmapDiv <- renderPlot({
        info_table(sr$archive$out1, plot=TRUE)
-
      })
      output$genocurve <- renderPlot({
        geomc = genotype_curve(sr$archive$out1, sample=10000, drop=FALSE, dropna=FALSE, thresh=0.95) + theme_bw() 
@@ -243,14 +245,14 @@ server <-function(input,output,session){
    
    ##stat
    
-   output$genostat <- renderPlot({
-     xvm.f = statGen(sr$archive$out1)
-     print("1")     
-     print(xvm.f)
-     xvm.stat<-basic.stats(xvm.f, diploid=F, digits=2)
-     
-     print("2")
-     print(xvm.stat)
-     
+   output$genostatbasePerLoc <- DT::renderDataTable({
+     DT::datatable(
+       basic.stats(sr$xvm.stat, diploid=F, digits=2)$perloc
+     )
    })
+   # output$genostatbaseOverall <- DT::renderDataTable({
+   #   DT::datatable(
+   #     basic.stats(sr$xvm.stat, diploid=F, digits=2)$overall
+   #   )
+   #})
 }

@@ -9,7 +9,7 @@ sidebar <- dashboardSidebar(
     menuItem("Genotype object", tabName = "genind", icon = icon("book-open")),
     menuItem("PCA", tabName = "PCAtab", icon = icon("calculator")),
     menuItem("Diversity Heatmap", tabName = "DiversityByLocus", icon = icon("calculator")),
-    menuItem("Statitics", tabName = "Statitics", icon = icon("calculator"))
+    menuItem("Statistics", tabName = "Statistics", icon = icon("calculator"))
   )
 )
 
@@ -64,14 +64,16 @@ body <- dashboardBody(
             actionButton(inputId="Submit","Submit")
             )
       ),
-      fluidRow(
-        box(width = 12,
-            DT::dataTableOutput(outputId = "tabhaplo")
-        )
-      ),
-      fluidRow(
-        box(width = 12,
-            DT::dataTableOutput(outputId = "tabhaploloc")
+      conditionalPanel("input.Submit",
+        fluidRow(
+          box(width = 12,
+              DT::dataTableOutput(outputId = "tabhaplo")
+          )
+        ),
+        fluidRow(
+          box(width = 12,
+              DT::dataTableOutput(outputId = "tabhaploloc")
+          )
         )
       )
     ),
@@ -85,30 +87,30 @@ body <- dashboardBody(
             actionButton(inputId = "Submitpca","Submit")
         )
       ),
-      fluidRow(
-        conditionalPanel("input.Submitpca",
-          box(width = 6,
-            plotOutput(outputId = "pcaInd", height = "600px") 
-            #%>% withSpinner(color="#0dc5c1")
-            %>% withLoader(loader = "dnaspin")
-          ),
-          box(width = 6,
-            plotOutput(outputId = "pcaVar", height = "600px") 
-            #%>% withSpinner(color="#0dc5c1")
-            %>% withLoader(loader = "dnaspin")
-          )
-        ),
+      conditionalPanel("input.Submitpca",
         fluidRow(
-          box(width = 6,
-            plotOutput(outputId = "pcahab", height = "600px") 
-            #%>% withSpinner(color="#0dc5c1")
-            %>% withLoader(loader = "dnaspin")
-  
-          ),
-          box(width = 6,
-            plotOutput(outputId = "pcahabi", height = "600px") 
-            #%>% withSpinner(color="#0dc5c1")
-            %>% withLoader(loader = "dnaspin")
+            box(width = 6,
+              plotOutput(outputId = "pcaInd", height = "600px") 
+              #%>% withSpinner(color="#0dc5c1")
+              %>% withLoader(loader = "dnaspin")
+            ),
+            box(width = 6,
+              plotOutput(outputId = "pcaVar", height = "600px") 
+              #%>% withSpinner(color="#0dc5c1")
+              %>% withLoader(loader = "dnaspin")
+            ),
+          fluidRow(
+            box(width = 6,
+              plotOutput(outputId = "pcahab", height = "600px") 
+              #%>% withSpinner(color="#0dc5c1")
+              %>% withLoader(loader = "dnaspin")
+    
+            ),
+            box(width = 6,
+              plotOutput(outputId = "pcahabi", height = "600px") 
+              #%>% withSpinner(color="#0dc5c1")
+              %>% withLoader(loader = "dnaspin")
+            )
           )
         )
       )
@@ -141,13 +143,19 @@ body <- dashboardBody(
       )
     ),
     tabItem(
-      tabName ="Statitics",
+      tabName ="Statistics",
       fluidRow(
+        box("Basic statistics : Per Locus"),
         box(width = 12,
-            plotOutput(outputId = "genostat", height = "600px") 
-                %>% withLoader(loader = "dnaspin")
+            DT::dataTableOutput(outputId = "genostatbasePerLoc")
         )
       )
+      # ,fluidRow(
+      #   box("Basic statistics : Overall"),
+      #   box(width = 12,
+      #       DT::dataTableOutput(outputId = "genostatbaseOverall")
+      #   )
+      # )
     )
   )
 )

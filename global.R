@@ -150,9 +150,9 @@ diversitybyloc <- function(col.xvm, colone, colonesup){
 
 #Statistics
 
-statGen <- function(c.xvm){
-  x = genind2hierfstat(c.xvm)
-  return(x)
-}
+# statGen <- function(c.xvm){
+#   x = genind2hierfstat(c.xvm)
+#   return(x)
+# }
 
 
