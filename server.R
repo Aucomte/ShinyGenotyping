@@ -1,3 +1,5 @@
+options(htmlwidgets.TOJSON_ARGS = list(na = 'string'))
+
 server <-function(input,output,session){
   
   observe_helpers() # active help icon
@@ -21,7 +23,8 @@ server <-function(input,output,session){
     checkboxcolDiv  = NULL,
     colsupDiv = NULL,
     archive = NULL,
-    xvm.stat = NULL
+    xvm.stat = NULL,
+    ploidy_number = 1
   )
   
   ## input dataset
@@ -32,8 +35,10 @@ server <-function(input,output,session){
   observeEvent(c(
     input$file1,
     sr$sep), ignoreInit = TRUE,{
-      myCSV <- reactiveFileReader(100, session, input$file1$datapath, read.csv, sep = sr$sep, dec=".", fill =TRUE, row.names=1)
+      myCSV <- reactiveFileReader(100, session, input$file1$datapath, read.csv, sep = sr$sep, dec=".", row.names=1) #fill = TRUE ? 
       sr$table = as.data.frame(myCSV())
+      
+      
       sr$colnames = colnames(sr$table)
       
       updateCheckboxGroupInput(session, "checkboxcol", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
@@ -62,16 +67,17 @@ server <-function(input,output,session){
           "}"
         )
       )
-    )
+   )
   )
    
    ## creation genind
    observeEvent(input$Submit, {
+     sr$ploidy_number = input$ploid
      sr$checkboxcol = input$checkboxcol
      updateCheckboxGroupInput(session, "checkboxpca", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected = sr$checkboxcol)
      updateCheckboxGroupInput(session, "checkboxcolDiv", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected = sr$checkboxcol)
      sr$genindtype = input$genindtype
-     sr$haplotype_out = haplotypes(sr$table, sr$checkboxcol, sr$genindtype)
+     sr$haplotype_out = haplotypes(sr$table, sr$checkboxcol, sr$genindtype, sr$ploidy_number)
      sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
    })
    
@@ -80,7 +86,9 @@ server <-function(input,output,session){
      DT::datatable(
        sr$haplotype_out, 
        extensions = 'Buttons', 
+       rownames= FALSE,
        options = list(
+         scrollX=TRUE,
          dom = 'Blfrtip', 
          buttons = list(
            'copy', 
@@ -101,6 +109,12 @@ server <-function(input,output,session){
        )
      )
    })
+   
+   output$numberOfHaplo <- renderText({
+     x = nrow(sr$haplotypeloc_out)
+     paste("In this dataset there is ", x, " haplotypes", sep = "")
+   })
+   
    output$download1 <- downloadHandler(
      filename = function() {
        paste("data-", Sys.Date(), ".csv", sep="")
@@ -124,6 +138,7 @@ server <-function(input,output,session){
        sr$haplotypeloc_out, 
        extensions = 'Buttons', 
        options = list(
+         scrollX=TRUE,
          dom = 'Blfrtip', 
          buttons = list(
            'copy', 
@@ -226,6 +241,65 @@ server <-function(input,output,session){
      output$heatmapDiv <- renderPlot({
        info_table(sr$archive$out1, plot=TRUE)
      })
+     
+     output$genind2hierfstat<- DT::renderDataTable({
+       DT::datatable(
+         sr$xvm.stat,
+         extensions = 'Buttons', 
+         options = list(
+           scrollX=TRUE,
+           dom = 'Blfrtip', 
+           buttons = list(
+             'copy', 
+             'print',
+             list(
+               extend = "collection", 
+               text = "Download entire dataset",
+               #buttons = c("csv","excel","pdf"),
+               action = DT::JS("function ( e, dt, node, config ) { Shiny.setInputValue('test1', true, {priority: 'event'});}")
+             )
+           ),
+           lengthMenu = list( c(10, 20, -1), c(10, 20, "All")),
+           initComplete = JS(
+             "function(settings, json) {",
+             "$(this.api().table().header()).css({'background-color': '#3C3C3C', 'color': '#fff'});",
+             "}"
+           )
+         )
+       )
+     })
+     output$genostatbasePerLoc <- DT::renderDataTable({
+       DT::datatable(
+         if(sr$ploidy_number == 2){
+           basic.stats(sr$xvm.stat, diploid=T, digits=2)$perloc
+         }
+         else{
+           basic.stats(sr$xvm.stat, diploid=F, digits=2)$perloc
+         },
+         extensions = 'Buttons', 
+         options = list(
+           scrollX=TRUE,
+           dom = 'Blfrtip', 
+           buttons = list(
+             'copy', 
+             'print',
+             list(
+               extend = "collection", 
+               text = "Download entire dataset",
+               #buttons = c("csv","excel","pdf"),
+               action = DT::JS("function ( e, dt, node, config ) { Shiny.setInputValue('test1', true, {priority: 'event'});}")
+             )
+           ),
+           lengthMenu = list( c(10, 20, -1), c(10, 20, "All")),
+           initComplete = JS(
+             "function(settings, json) {",
+             "$(this.api().table().header()).css({'background-color': '#3C3C3C', 'color': '#fff'});",
+             "}"
+           )
+         )
+       )
+     })
+     
      output$genocurve <- renderPlot({
        geomc = genotype_curve(sr$archive$out1, sample=10000, drop=FALSE, dropna=FALSE, thresh=0.95) + theme_bw() 
        geomc + geom_smooth()
@@ -243,16 +317,4 @@ server <-function(input,output,session){
      contentType = "application/zip"
    )
    
-   ##stat
-   
-   output$genostatbasePerLoc <- DT::renderDataTable({
-     DT::datatable(
-       basic.stats(sr$xvm.stat, diploid=F, digits=2)$perloc
-     )
-   })
-   # output$genostatbaseOverall <- DT::renderDataTable({
-   #   DT::datatable(
-   #     basic.stats(sr$xvm.stat, diploid=F, digits=2)$overall
-   #   )
-   #})
 }

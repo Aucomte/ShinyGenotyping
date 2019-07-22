@@ -25,9 +25,9 @@ library(shinycustomloader)
 #install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper","adegenet","poppr","plyr","FactoMineR","PopGenReport","hierfstat","pegas","colourpicker","shinyFeedback","shinyFiles","shinycssloaders","shinycustomloader"))
 
 
-haplotypes <- function(col, colonnes, typehap){
+haplotypes <- function(col, colonnes, typehap, ploidy_number){
   #Import genind (adegenet)
-  c.xvm<-df2genind(col[,colonnes], ploidy=1, NA.char="0", type=typehap)
+  c.xvm<-df2genind(col[,colonnes], ploidy=ploidy_number, NA.char="0", type=typehap)
   
   ## Identification des haplotypes, par le package poppr
   mlg.xvm<-mlg(c.xvm) #compte le nombre de g?notypes multilocus
@@ -36,7 +36,6 @@ haplotypes <- function(col, colonnes, typehap){
   ##COnversion de la liste d'haplo en dataframe (pour export) : par le package plyr
   haplo.xvm<-ldply(liste.haplo,data.frame) #ldply coupe la liste en morceaux et la rassemble en dataframe
   names(haplo.xvm)<-c("Haplotype","Strain")
-
 return(haplo.xvm)
 }
 
@@ -53,16 +52,15 @@ haplotypesLocus <- function(col, colonnes, haplo.xvm){
           for(j2 in 2:ncol(x)){
             
             if(as.character(colnames(col)[j]) == as.character(colnames(x)[j2])){
-              print(as.character(colnames(col)[j]))
               x[i,j2] <- col[i,j]
-              print(x[i,j2])
             }
          }
        }
      }
     }
   }
-  return(x)
+  y = unique(x)
+  return(y)
 }
 
 #PCA

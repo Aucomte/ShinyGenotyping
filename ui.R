@@ -1,5 +1,5 @@
 
-header <- dashboardHeader(title = "MLVA", titleWidth = 380)
+header <- dashboardHeader(title = "ShinyGenotyping", titleWidth = 380)
 
 sidebar <- dashboardSidebar(
   width = 180,
@@ -61,18 +61,24 @@ body <- dashboardBody(
         box(width = 12,
             checkboxGroupInput(inputId = "checkboxcol", "column to use to calculate haplotypes: "),
             radioButtons(inputId = "genindtype", "type of marker :", choiceNames = c("codominant","presence/absence"), choiceValues = c("codom","PA"), selected = "codom"),
+            sliderInput(inputId = "ploid", "ploidy number :", min = 1, max = 6, 1, step = 1),
             actionButton(inputId="Submit","Submit")
-            )
+          )
       ),
       conditionalPanel("input.Submit",
         fluidRow(
-          box(width = 12,
-              DT::dataTableOutput(outputId = "tabhaplo")
-          )
-        ),
+           box(width = 12,
+               textOutput("numberOfHaplo")
+           )
+        )
+      ),
+      conditionalPanel("input.Submit",
         fluidRow(
-          box(width = 12,
+          box(width = 6,
               DT::dataTableOutput(outputId = "tabhaploloc")
+          ),
+          box(width = 6,
+              DT::dataTableOutput(outputId = "tabhaplo")
           )
         )
       )
@@ -145,9 +151,11 @@ body <- dashboardBody(
     tabItem(
       tabName ="Statistics",
       fluidRow(
-        box("Basic statistics : Per Locus"),
-        box(width = 12,
+        box(width = 6,
             DT::dataTableOutput(outputId = "genostatbasePerLoc")
+        ),
+        box(width = 6,
+          DT::dataTableOutput(outputId = "genind2hierfstat")
         )
       )
       # ,fluidRow(
