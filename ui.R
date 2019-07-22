@@ -8,8 +8,7 @@ sidebar <- dashboardSidebar(
     menuItem("input table", tabName = "input", icon = icon("book-open")), 
     menuItem("Genotype object", tabName = "genind", icon = icon("book-open")),
     menuItem("PCA", tabName = "PCAtab", icon = icon("calculator")),
-    menuItem("Diversity Heatmap", tabName = "DiversityByLocus", icon = icon("calculator")),
-    menuItem("Statistics", tabName = "Statistics", icon = icon("calculator"))
+    menuItem("Diversity Heatmap", tabName = "DiversityByLocus", icon = icon("calculator"))
   )
 )
 
@@ -68,17 +67,18 @@ body <- dashboardBody(
       conditionalPanel("input.Submit",
         fluidRow(
            box(width = 12,
-               textOutput("numberOfHaplo")
+               textOutput("numberOfHaplo"),
+               textOutput("numberOfind")
            )
         )
       ),
       conditionalPanel("input.Submit",
         fluidRow(
           box(width = 6,
-              DT::dataTableOutput(outputId = "tabhaploloc")
+              DT::dataTableOutput(outputId = "tabhaplo")
           ),
           box(width = 6,
-              DT::dataTableOutput(outputId = "tabhaplo")
+              DT::dataTableOutput(outputId = "tabhaploloc")
           )
         )
       )
@@ -136,34 +136,29 @@ body <- dashboardBody(
               )
           )
         ),
-        conditionalPanel("input.submitarchive",
-          box(width = 6,
-              plotOutput(outputId = "heatmapDiv", height = "600px") 
+        fluidRow(
+          conditionalPanel("input.submitarchive",
+            box(width = 6,
+                plotOutput(outputId = "heatmapDiv", height = "600px") 
+                  %>% withLoader(loader = "dnaspin")
+            ),
+            box(width = 6,
+                plotOutput(outputId = "genocurve", height = "600px") 
                 %>% withLoader(loader = "dnaspin")
-          ),
-          box(width = 6,
-              plotOutput(outputId = "genocurve", height = "600px") 
-              %>% withLoader(loader = "dnaspin")
+            )
+          )
+        )
+      ),
+      fluidRow(
+        conditionalPanel("input.submitarchive",
+            box(width = 6,
+                DT::dataTableOutput(outputId = "genostatbasePerLoc")
+            ),
+            box(width = 6,
+                DT::dataTableOutput(outputId = "genind2hierfstat")
           )
         )
       )
-    ),
-    tabItem(
-      tabName ="Statistics",
-      fluidRow(
-        box(width = 6,
-            DT::dataTableOutput(outputId = "genostatbasePerLoc")
-        ),
-        box(width = 6,
-          DT::dataTableOutput(outputId = "genind2hierfstat")
-        )
-      )
-      # ,fluidRow(
-      #   box("Basic statistics : Overall"),
-      #   box(width = 12,
-      #       DT::dataTableOutput(outputId = "genostatbaseOverall")
-      #   )
-      # )
     )
   )
 )
