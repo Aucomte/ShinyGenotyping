@@ -1,3 +1,5 @@
+## Server File for the input file tab
+
 observeEvent(input$sep, {
   sr$sep = input$sep
 })
@@ -6,15 +8,12 @@ observeEvent(c(
   sr$sep), ignoreInit = TRUE,{
     myCSV <- reactiveFileReader(100, session, input$file1$datapath, read.csv, sep = sr$sep, dec=".", row.names=1) #fill = TRUE ? 
     sr$table = as.data.frame(myCSV())
-    
-    
     sr$colnames = colnames(sr$table)
     
     updateCheckboxGroupInput(session, "checkboxcol", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
-    updateCheckboxGroupInput(session, "checkboxpca", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
-    updateSelectInput(session, "checkboxpcasup", choices = sr$colnames)
+
+    updateSelectInput(session, "strata", choices = sr$colnames)
     
-    updateCheckboxGroupInput(session, "checkboxcolDiv", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
     updateSelectInput(session, "colsupDiv", choices = sr$colnames)
   })
 

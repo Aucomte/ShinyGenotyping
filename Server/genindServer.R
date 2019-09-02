@@ -1,12 +1,25 @@
 observeEvent(input$Submit, {
   sr$ploidy_number = input$ploid
-  sr$checkboxcol = input$checkboxcol
-  updateCheckboxGroupInput(session, "checkboxpca", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected = sr$checkboxcol)
-  updateCheckboxGroupInput(session, "checkboxcolDiv", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected = sr$checkboxcol)
   sr$genindtype = input$genindtype
   sr$haplotype_out = haplotypes(sr$table, sr$checkboxcol, sr$genindtype, sr$ploidy_number)
   sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
 })
+observeEvent(input$checkboxcol, {
+  sr$checkboxcol = input$checkboxcol
+})
+observeEvent(input$colsupDiv, {
+  sr$colsupDiv = input$colsupDiv
+})
+# texte nombre d'haplo / nombre d'individus
+output$numberOfHaplo <- renderText({
+  x = nrow(sr$haplotypeloc_out)
+  paste("Number of haplotypes: ", x, sep = "")
+})
+output$numberOfind<- renderText({
+  y = nrow(sr$haplotype_out)
+  paste("Number of Individuals: ", y, sep = "")
+})
+
 
 #output tabhaplo
 output$tabhaplo <- DT::renderDataTable(server = FALSE,{
@@ -37,16 +50,7 @@ output$tabhaplo <- DT::renderDataTable(server = FALSE,{
   )
 })
 
-output$numberOfHaplo <- renderText({
-  x = nrow(sr$haplotypeloc_out)
-  paste("Number of haplotypes: ", x, sep = "")
-})
-output$numberOfind<- renderText({
-  y = nrow(sr$haplotype_out)
-  paste("Number of Individuals: ", y, sep = "")
-})
-
-output$download1 <- downloadHandler(
+output$download <- downloadHandler(
   filename = function() {
     paste("data-", Sys.Date(), ".csv", sep="")
   },
@@ -56,7 +60,7 @@ output$download1 <- downloadHandler(
 )
 myModal <- function() {
   div(id = "test",
-      modalDialog(downloadButton("download1","Download as csv"),easyClose = TRUE, title = "Download Table")
+      modalDialog(downloadButton("download","Download as csv"),easyClose = TRUE, title = "Download Table")
   )
 }
 observeEvent(input$test, {
@@ -90,7 +94,7 @@ output$tabhaploloc <- DT::renderDataTable(server = FALSE,{
     )
   )
 })
-output$download2 <- downloadHandler(
+output$download1 <- downloadHandler(
   filename = function() {
     paste("data-", Sys.Date(), ".csv", sep="")
   },
@@ -98,11 +102,11 @@ output$download2 <- downloadHandler(
     write.table(sr$haplotypeloc_out, file, sep="\t", dec= ",", col.names = T, row.names = F)
   }
 )
-myModal2 <- function() {
+myModal1 <- function() {
   div(id = "test1",
-      modalDialog(downloadButton("download2","Download as csv"),easyClose = TRUE, title = "Download Table")
+      modalDialog(downloadButton("download1","Download as csv"),easyClose = TRUE, title = "Download Table")
   )
 }
-observeEvent(input$test, {
-  showModal(myModal2())
+observeEvent(input$test1, {
+  showModal(myModal1())
 })
