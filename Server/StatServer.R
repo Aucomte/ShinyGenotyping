@@ -123,17 +123,14 @@ observeEvent(input$Submitcurve,{
 
 observeEvent(input$Submitstat,{
                  sr$strata = input$strata
-                 
-                 print(sr$strata)
-                 print(data.frame(sr$archive$out1))
-                 
-                 strata(sr$archive$out1)<-data.frame(sr$archive$out1)[sr$strata]
-                 nameStrata(sr$archive$out1) <-~sr$strata
+                 strata(sr$archive$out1)<-data.frame(other(sr$archive$out1))[sr$strata]
+                 print(sr$archive$out1)
+                 #nameStrata(sr$archive$out1) <-~sr$strata
                  sr$samplepoppr = input$samplepoppr
                  sr$minsamp = input$minsamp
                  sr$missingpopp = input$missingpopp
+                 print(sr$missingpopp)
                  if(sr$submitBoolean == TRUE){
-                   missing=sr$missingpopp
                    sr$resume<-poppr(sr$archive$out1, missing=sr$missingpopp, sample=sr$samplepoppr, minsamp=sr$minsamp, strata=sr$strata, plot=T, legend=T)
                  }
                
@@ -182,3 +179,4 @@ observeEvent(input$Submitstat,{
                  
                  
 })
+

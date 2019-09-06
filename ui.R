@@ -92,7 +92,7 @@ body <- dashboardBody(
             selectInput(inputId = "strata", "hierarchical levels to be used (strata) : ", choice = ""),
             sliderInput(inputId = "samplepoppr", "number of permutations desired to obtain p-values (sample) :", min = 0, max = 10000, 1000, step = 50),
             sliderInput(inputId = "minsamp", "the minimum number of individuals to resample for rarefaction analysis (minsample) :", min = 0, max = 15, 8, step = 1),
-            radioButtons(inputId = "missingpoppr", "how should missing data be treated? (missing):", choiceNames = c("mean","zero"), choiceValues = c("mean", "zero"), selected = "mean"),
+            radioButtons(inputId = "missingpopp", "how should missing data be treated? (missing):", choiceNames = c("mean","zero"), choiceValues = c("mean", "zero"), selected = "mean"),
             actionButton(inputId="Submitstat","Submit")
           )
         ),
@@ -187,7 +187,7 @@ body <- dashboardBody(
                       %>% withLoader(loader = "dnaspin")
                   )
             ),
-            tabPanel("Statistics", value=6,
+            tabPanel("Poppr", value=6,
                  conditionalPanel("input.Submitstat",
                       box(width = 12,
                           plotOutput(outputId = "popprplot", height = "600px")
@@ -219,8 +219,8 @@ body <- dashboardBody(
           
           ## choice of dataset if source is an example
           conditionalPanel(condition = "input.datatype=='expl'&& $('li.active a').first().html()!= 'Help'",
-                           selectInput("dataset", "Select an example dataset:",
-                                       choices=c("microbov","sim2pop","nancycats"))
+                           #selectInput("dataset", "Select an example dataset:", choices=c("microbov","sim2pop","nancycats"))
+                           selectInput("dataset", "The dataset", choices="Input")
           ),
           
           ## choice of dataset if source is a file

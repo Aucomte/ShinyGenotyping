@@ -22,12 +22,15 @@ library(shinyFiles)
 library(shinycssloaders)
 library(shinycustomloader)
 
+#leaflet = carte interactive
+
 #install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper","adegenet","poppr","plyr","FactoMineR","PopGenReport","hierfstat","pegas","colourpicker","shinyFeedback","shinyFiles","shinycssloaders","shinycustomloader"))
 
 
 haplotypes <- function(col, colonnes, typehap, ploidy_number){
   #Import genind (adegenet)
   c.xvm<-df2genind(col[,colonnes], ploidy=ploidy_number, NA.char="0", type=typehap)
+  c.xvm$other <- col.xvm[, names(col.xvm) != colonnes]
   
   ## Identification des haplotypes, par le package poppr
   mlg.xvm<-mlg(c.xvm) #compte le nombre de g?notypes multilocus
@@ -136,7 +139,7 @@ diversitybyloc <- function(col.xvm, colone, colonesup){
   c.xvm<-df2genind(col.xvm[,colone],pop=as.factor(col.xvm[,colonesup]), ploidy=1, ncode=2, NA.char="NA", type="codom")
   now<-format(Sys.time(), "%b%d%H%M%S")
   div<-popgenreport(c.xvm, mk.counts = T, mk.differ.stats = T,mk.allele.dist=T, mk.null.all=T, mk.allel.rich=T, mk.pdf=T, foldername = now)
-
+  c.xvm$other <- col.xvm[, names(col.xvm) != colone]
   system(paste("tar cvf ", now , " -C ", tempdir(), "/", now, " .", sep = ""))
 
   output = list()
@@ -145,12 +148,3 @@ diversitybyloc <- function(col.xvm, colone, colonesup){
   
   return(output)
 }
-
-#Statistics
-
-# statGen <- function(c.xvm){
-#   x = genind2hierfstat(c.xvm)
-#   return(x)
-# }
-
-
