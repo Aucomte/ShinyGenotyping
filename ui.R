@@ -56,7 +56,6 @@ body <- dashboardBody(
           
           conditionalPanel(condition="input.tabselected == '1'", 
             h3("INPUT"),
-            
             fileInput("file1", "CSV File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
             radioButtons('sep', 'Separator',
                           c(Semicolon=';',
@@ -65,15 +64,15 @@ body <- dashboardBody(
           ),
           conditionalPanel(condition="input.tabselected == '2'",   
             h3("Create genotype object"),
-            
-            checkboxGroupInput(inputId = "checkboxcol", "column to use to calculate haplotypes: "),
+            checkboxGroupInput(inputId = "checkboxcol", "Loci: "),
+            selectInput(inputId = "strata", "Strata : ", choice = ""),
             radioButtons(inputId = "genindtype", "type of marker :", choiceNames = c("codominant","presence/absence"), choiceValues = c("codom","PA"), selected = "codom"),
             sliderInput(inputId = "ploid", "ploidy number :", min = 1, max = 6, 1, step = 1),
             actionButton(inputId="Submit","Submit")
           ),
             conditionalPanel(condition="input.tabselected == '3'", 
               h3("PCA"),
-              
+              checkboxGroupInput(inputId = "checkboxcolPCA", "variables: "),
               selectInput(inputId = "colsupDiv", "suplementary explicative column : ", choice = ""),
               selectInput(inputId = "axeschoices", "axes", choice=c("axe1 vs axe2", "axe1 vs axe3", "axe2 vs axe3")),
               actionButton(inputId="Submitpca","Submit")
@@ -89,7 +88,6 @@ body <- dashboardBody(
             actionButton(inputId="Submitcurve","Submit")
           ),
           conditionalPanel(condition="input.tabselected == '6'", 
-            selectInput(inputId = "strata", "hierarchical levels to be used (strata) : ", choice = ""),
             sliderInput(inputId = "samplepoppr", "number of permutations desired to obtain p-values (sample) :", min = 0, max = 10000, 1000, step = 50),
             sliderInput(inputId = "minsamp", "the minimum number of individuals to resample for rarefaction analysis (minsample) :", min = 0, max = 15, 8, step = 1),
             radioButtons(inputId = "missingpopp", "how should missing data be treated? (missing):", choiceNames = c("mean","zero"), choiceValues = c("mean", "zero"), selected = "mean"),
@@ -101,12 +99,42 @@ body <- dashboardBody(
             tabPanel("input", value=1, id = "t1",
                      DT::dataTableOutput(outputId = "DataSet")
                      ),
+            tabPanel("PCA", value=3, id = "t3",
+               conditionalPanel("input.Submitpca",
+                  fluidRow(
+                    box(width = 6,
+                        plotOutput(outputId = "pcaInd", height = "600px")
+                        %>% withLoader(loader = "dnaspin")
+                    ),
+                    box(width = 6,
+                        plotOutput(outputId = "pcaVar", height = "600px")
+                        %>% withLoader(loader = "dnaspin")
+                    ),
+                    fluidRow(
+                      box(width = 6,
+                          plotOutput(outputId = "pcahab", height = "600px")
+                          %>% withLoader(loader = "dnaspin")
+                      ),
+                      box(width = 6,
+                          plotOutput(outputId = "pcahabi", height = "600px")
+                          %>% withLoader(loader = "dnaspin")
+                      )
+                    )
+                  )
+               )
+            ),
             tabPanel("Genotype object", value=2, id = "t2",
                      fluidRow(
                        box(width = 12,
                            textOutput("numberOfHaplo"),
                            textOutput("numberOfind")
                        )
+                       # ,
+                       # fluidRow(
+                       #   box(width = 12,
+                       #     htmlOutput("genindStat")
+                       #   )
+                       # )
                      ),
                      fluidRow(
                        box(width = 12,
@@ -117,32 +145,6 @@ body <- dashboardBody(
                        )
                      )
             ),
-
-            tabPanel("PCA", value=3, id = "t3",
-                  conditionalPanel("input.Submitpca",
-                     fluidRow(
-                       box(width = 6,
-                           plotOutput(outputId = "pcaInd", height = "600px")
-                           %>% withLoader(loader = "dnaspin")
-                       ),
-                       box(width = 6,
-                           plotOutput(outputId = "pcaVar", height = "600px")
-                           %>% withLoader(loader = "dnaspin")
-                       ),
-                       fluidRow(
-                         box(width = 6,
-                             plotOutput(outputId = "pcahab", height = "600px")
-                             %>% withLoader(loader = "dnaspin")
-                         ),
-                         box(width = 6,
-                             plotOutput(outputId = "pcahabi", height = "600px")
-                             %>% withLoader(loader = "dnaspin")
-                         )
-                       )
-                     )
-                  )
-               ),
-
             tabPanel("PopGeneReport", value=4, id = "t4",
                      fluidRow(
                        fluidRow(

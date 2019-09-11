@@ -1,15 +1,14 @@
 observeEvent(input$Submit, {
+  sr$strata = input$strata
   sr$ploidy_number = input$ploid
   sr$genindtype = input$genindtype
-  sr$haplotype_out = haplotypes(sr$table, sr$checkboxcol, sr$genindtype, sr$ploidy_number)
+  sr$checkboxcol = input$checkboxcol
+  
+  sr$Genind <- CreateGenindObject(sr$table, sr$checkboxcol, sr$strata, sr$genindtype, sr$ploidy_number)
+  sr$haplotype_out = haplotypes(sr$Genind)
   sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
 })
-observeEvent(input$checkboxcol, {
-  sr$checkboxcol = input$checkboxcol
-})
-observeEvent(input$colsupDiv, {
-  sr$colsupDiv = input$colsupDiv
-})
+
 # texte nombre d'haplo / nombre d'individus
 output$numberOfHaplo <- renderText({
   x = nrow(sr$haplotypeloc_out)
@@ -20,6 +19,9 @@ output$numberOfind<- renderText({
   paste("Number of Individuals: ", y, sep = "")
 })
 
+output$genindStat<- renderPrint({
+  sr$Genind
+})
 
 #output tabhaplo
 output$tabhaplo <- DT::renderDataTable(server = FALSE,{

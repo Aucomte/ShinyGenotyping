@@ -1,6 +1,10 @@
 observeEvent(input$Submitpca, ignoreInit = TRUE, {
   sr$axeschoices = input$axeschoices
-  sr$outpca = calculPCA(sr$table, sr$checkboxcol, sr$colsupDiv)
+  sr$checkboxcolPCA = input$checkboxcolPCA
+  sr$colsupDiv = input$colsupDiv
+  sr$outpca = calculPCA(sr$table, sr$checkboxcolPCA, sr$colsupDiv)
+  updateCheckboxGroupInput(session, "checkboxcol", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected = sr$checkboxcolPCA)
+  updateSelectInput(session, "strata", choices = sr$colnames, selected = sr$colsupDiv)
   output$pcaInd <- renderPlot({
     if(sr$axeschoices == "axe1 vs axe2"){
       plotind12(sr$outpca)
@@ -25,24 +29,24 @@ observeEvent(input$Submitpca, ignoreInit = TRUE, {
   })
   output$pcahab <- renderPlot({
     if(sr$axeschoices == "axe1 vs axe2"){
-      habillageind12(sr$outpca, sr$checkboxcol)
+      habillageind12(sr$outpca, sr$checkboxcolPCA)
     }
     else if(sr$axeschoices == "axe1 vs axe3"){
-      habillageind13(sr$outpca, sr$checkboxcol)
+      habillageind13(sr$outpca, sr$checkboxcolPCA)
     }
     else if(sr$axeschoices == "axe2 vs axe3"){
-      habillageind23(sr$outpca, sr$checkboxcol)
+      habillageind23(sr$outpca, sr$checkboxcolPCA)
     }
   })
   output$pcahabi <- renderPlot({
     if(sr$axeschoices == "axe1 vs axe2"){
-      habillageind12inv(sr$outpca, sr$checkboxcol)
+      habillageind12inv(sr$outpca, sr$checkboxcolPCA)
     }
     else if(sr$axeschoices == "axe1 vs axe3"){
-      habillageind13inv(sr$outpca, sr$checkboxcol)
+      habillageind13inv(sr$outpca, sr$checkboxcolPCA)
     }
     else if(sr$axeschoices == "axe2 vs axe3"){
-      habillageind23inv(sr$outpca, sr$checkboxcol)
+      habillageind23inv(sr$outpca, sr$checkboxcolPCA)
     }
   })
 })

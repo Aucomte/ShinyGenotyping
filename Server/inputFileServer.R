@@ -11,9 +11,9 @@ observeEvent(c(
     sr$colnames = colnames(sr$table)
     
     updateCheckboxGroupInput(session, "checkboxcol", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
+    updateCheckboxGroupInput(session, "checkboxcolPCA", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
 
     updateSelectInput(session, "strata", choices = sr$colnames)
-    
     updateSelectInput(session, "colsupDiv", choices = sr$colnames)
   })
 

@@ -26,12 +26,15 @@ library(shinycustomloader)
 
 #install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper","adegenet","poppr","plyr","FactoMineR","PopGenReport","hierfstat","pegas","colourpicker","shinyFeedback","shinyFiles","shinycssloaders","shinycustomloader"))
 
+CreateGenindObject <- function(col.xvm, colone, colonesup, typehap, ploidy_number){
+  c.xvm<-df2genind(col.xvm[,colone],pop=as.factor(col.xvm[,colonesup]), ploidy=ploidy_number, ncode=2,NA.char="NA", type=typehap)
+  c.xvm$other <- col.xvm[, names(col.xvm) != colone]
+  strata(c.xvm)<-data.frame(other(c.xvm))[colonesup]
+  return(c.xvm)
+}
 
-haplotypes <- function(col, colonnes, typehap, ploidy_number){
-  #Import genind (adegenet)
-  c.xvm<-df2genind(col[,colonnes], ploidy=ploidy_number, NA.char="0", type=typehap)
-  c.xvm$other <- col.xvm[, names(col.xvm) != colonnes]
-  
+haplotypes <- function(c.xvm){
+
   ## Identification des haplotypes, par le package poppr
   mlg.xvm<-mlg(c.xvm) #compte le nombre de g?notypes multilocus
   liste.haplo<-mlg.id(c.xvm)# liste les genotypes multilocus et leurs ID correspondants (souches). Le r?sultat est une liste.
@@ -135,16 +138,18 @@ habillageind23inv <- function(mlva12, colone){
 
 #diversity 
 
-diversitybyloc <- function(col.xvm, colone, colonesup){
-  c.xvm<-df2genind(col.xvm[,colone],pop=as.factor(col.xvm[,colonesup]), ploidy=1, ncode=2, NA.char="NA", type="codom")
-  now<-format(Sys.time(), "%b%d%H%M%S")
-  div<-popgenreport(c.xvm, mk.counts = T, mk.differ.stats = T,mk.allele.dist=T, mk.null.all=T, mk.allel.rich=T, mk.pdf=T, foldername = now)
-  c.xvm$other <- col.xvm[, names(col.xvm) != colone]
-  system(paste("tar cvf ", now , " -C ", tempdir(), "/", now, " .", sep = ""))
+diversitybyloc <- function(c.xvm){
 
-  output = list()
-  output$out1 = c.xvm
-  output$path = now
+  now<-format(Sys.time(), "%b%d%H%M%S")
+  dirT = tempdir()
+  div<-popgenreport(c.xvm, mk.counts = T, mk.differ.stats = T, mk.allele.dist=T, mk.null.all=T, mk.allel.rich=T, mk.pdf=F, path.pgr=dirT,foldername="Allelic_Freq_RES")
   
+  output = list()
+  system(paste("tar cvf ", dirT,"/",now,".tar ", "-C ", dirT, "/Allelic_Freq_RES .", sep=""))
+  output$path = paste(dirT,"/",now,".tar", sep="")
+  #output$path = paste(dirT,"/Allelic_Freq_RES .", sep="")
+  print(output$path)
   return(output)
 }
+
+

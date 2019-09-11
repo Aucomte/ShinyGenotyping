@@ -1,4 +1,5 @@
 options(htmlwidgets.TOJSON_ARGS = list(na = 'string'))
+options(tinytex.verbose = TRUE)
 
 #liste des réactifs
 
@@ -16,11 +17,14 @@ sr <- reactiveValues(
   
   outpca = NULL,
   axeschoices = "axe1 vs axe2",
+  checkboxcolPCA = NULL,
   
   archive = NULL,
   xvm.stat = NULL,
   stats = NULL,
   ploidy_number = 1,
+  Genind = NULL,
+  path = NULL,
   
   #Stat Tab variable
   drop = F,
