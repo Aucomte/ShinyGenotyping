@@ -1,10 +1,6 @@
 
 archiveCreation <- observeEvent(input$submitarchive, ignoreInit = TRUE, {
-  print(sr$Genind)
   sr$archive = diversitybyloc(sr$Genind)
-  
-  
-  
   sr$xvm.stat = genind2hierfstat(sr$Genind)
   
   output$heatmapDiv <- renderPlot({
@@ -52,7 +48,7 @@ archiveCreation <- observeEvent(input$submitarchive, ignoreInit = TRUE, {
         modalDialog(downloadButton("download2","Download as csv"),easyClose = TRUE, title = "Download Table")
     )
   }
-  observeEvent(input$test, {
+  observeEvent(input$test2, {
     showModal(myModal2())
   })
   
@@ -101,10 +97,9 @@ archiveCreation <- observeEvent(input$submitarchive, ignoreInit = TRUE, {
         modalDialog(downloadButton("download3","Download as csv"),easyClose = TRUE, title = "Download Table")
     )
   }
-  observeEvent(input$test, {
+  observeEvent(input$test3, {
     showModal(myModal3())
   })
-
 })
 
 

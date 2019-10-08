@@ -178,7 +178,7 @@ body <- dashboardBody(
                                 plotOutput(outputId = "heatmapDiv", height = "600px") 
                                 #%>% withSpinner(color="#0dc5c1") 
                                 %>% withLoader(loader = "dnaspin")
-                            )            
+                            )
                          )
                        )
                      )
@@ -191,10 +191,10 @@ body <- dashboardBody(
             ),
             tabPanel("Poppr", value=6,
                  conditionalPanel("input.Submitstat",
-                      box(width = 12,
-                          plotOutput(outputId = "popprplot", height = "600px")
-                            %>% withLoader(loader = "dnaspin")
-                      ),
+                      # box(width = 12,
+                      #     plotOutput(outputId = "popprplot", height = "600px")
+                      #       %>% withLoader(loader = "dnaspin")
+                      # ),
                       box(width = 12,
                           DT::dataTableOutput(outputId = "popprtab")
                             %>% withLoader(loader = "dnaspin")
@@ -217,7 +217,7 @@ body <- dashboardBody(
             ## condition
             condition = "$('li.active a').first().html()!='Help'",
             radioButtons("datatype", "What data source to use?",
-                         list("Example from adegenet"="expl","Input file"="file"))),
+                         list("Input"="expl","Input file"="file"))),
           
           ## choice of dataset if source is an example
           conditionalPanel(condition = "input.datatype=='expl'&& $('li.active a').first().html()!= 'Help'",

@@ -15,9 +15,9 @@
     out <- NULL
     
     if(input$datatype=="expl"){
-      if(input$dataset=="microbov") data("microbov", package="adegenet", envir=environment())
-      if(input$dataset=="sim2pop") data("sim2pop", package="adegenet", envir=environment())
-      if(input$dataset=="nancycats") data("nancycats", package="adegenet", envir=environment())
+      #if(input$dataset=="microbov") data("microbov", package="adegenet", envir=environment())
+      #if(input$dataset=="sim2pop") data("sim2pop", package="adegenet", envir=environment())
+      #if(input$dataset=="nancycats") data("nancycats", package="adegenet", envir=environment())
       if(input$dataset=="Input") Input <- sr$Genind
       out <- get(input$dataset)
     }
