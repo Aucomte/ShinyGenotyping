@@ -37,8 +37,8 @@
     else if(input$dataset=="Input"){
       Input <- sr$Genind
         out <- get(input$dataset)
+        updateSelectInput(session, "groupslider", choices = colnames(out$other)) 
     }
-    #print(out)
     return(out)
   })
   
@@ -222,7 +222,17 @@
     }
     if(!is.null(input$nda)) nda <- input$nda
     
-    if(!is.null(x)) out <- dapc(x, n.pca=npca, n.da=nda, parallel=FALSE)
+    if(!is.null(input$nclust)) nclust <- input$nclust
+    
+    if(!is.null(x)){ 
+      if(input$clusters == "pop"){
+          out <- dapc(x, pop(x), n.pca=npca, n.da=nda, parallel=FALSE)
+      }
+      else if(input$clusters == "num"){
+          grp.m<-find.clusters(x, n.clust=nclust, n.pca=npca)
+          out <- dapc(x, grp.m$grp, n.pca=npca, n.da=nda, parallel=FALSE)
+      }
+    }
     return(out)
   })
   
@@ -238,7 +248,6 @@
   output$scatterplot <- renderPlot({
     dapc1 <- getDapc()
     if(!is.null(dapc1)){
-      print(dapc1)
       ## get colors
       K <- length(levels(dapc1$grp))
       print(K)
@@ -425,3 +434,10 @@
   
   #      .render.server.info()
 
+  output$representationplot<- renderPlot({
+    x <- getData()
+    y <- getDapc()
+    table.value(table(x$other[,input$groupslider], y$assign), col.lab=levels(y$assign))
+    
+  })
+  
