@@ -13,15 +13,7 @@
   ## GET DATA ##S
   getData <- reactive({
     out <- NULL
-    
-    if(input$datatype=="expl"){
-      #if(input$dataset=="microbov") data("microbov", package="adegenet", envir=environment())
-      #if(input$dataset=="sim2pop") data("sim2pop", package="adegenet", envir=environment())
-      #if(input$dataset=="nancycats") data("nancycats", package="adegenet", envir=environment())
-      if(input$dataset=="Input") Input <- sr$Genind
-      out <- get(input$dataset)
-    }
-    
+  
     if(input$datatype=="file" && !is.null(input$datafile)){
       ## need to rename input file
       oldName <- input$datafile$datapath
@@ -42,11 +34,15 @@
         out <- DNAbin2genind(fasta2DNAbin(newName))
       }
     }
+    else if(input$dataset=="Input"){
+      Input <- sr$Genind
+        out <- get(input$dataset)
+    }
+    #print(out)
     return(out)
   })
   
-  
-  
+
   
   ## DYNAMIC UI COMPONENTS ##
   ## SELECTION OF PCA AXES
@@ -245,6 +241,7 @@
       print(dapc1)
       ## get colors
       K <- length(levels(dapc1$grp))
+      print(K)
       myCol <- get(input$col.pal)(K)
       
       ## get screeplot info
