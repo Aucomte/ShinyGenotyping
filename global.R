@@ -22,12 +22,17 @@ library(shinyFiles)
 library(shinycssloaders)
 library(shinycustomloader)
 
+library(ComplexHeatmap)
+library(circlize)
+
 #leaflet = carte interactive
 
-#install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper","adegenet","poppr","plyr","FactoMineR","PopGenReport","hierfstat","pegas","colourpicker","shinyFeedback","shinyFiles","shinycssloaders","shinycustomloader"))
+# install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper",
+#                    "adegenet","poppr","plyr","FactoMineR","PopGenReport","hierfstat","pegas","colourpicker","shinyFeedback","shinyFiles",
+#                    "shinycssloaders","shinycustomloader"))
 
 CreateGenindObject <- function(col.xvm, colone, colonesup, typehap, ploidy_number){
-  c.xvm<-df2genind(col.xvm[,colone],pop=as.factor(col.xvm[,colonesup]), ploidy=ploidy_number, ncode=2,NA.char="NA", type=typehap)
+  c.xvm<-df2genind(col.xvm[,colone],pop=as.factor(col.xvm[,colonesup]), ploidy=ploidy_number, ncode=2, NA.char="NA", type=typehap)
   c.xvm$other <- col.xvm[, names(col.xvm) != colone]
   strata(c.xvm)<-data.frame(other(c.xvm))[colonesup]
   return(c.xvm)

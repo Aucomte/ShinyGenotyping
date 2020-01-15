@@ -41,23 +41,24 @@ sr <- reactiveValues(
   resume = NULL,
   
   #cluster
-  
   nbclust = NULL,
   nbmaxclust = 50,
   nbpca = NULL,
-  clusters = NULL
+  clusters = NULL,
+  
+  # find cluster
+  findClus = 10
 )
 
 shinyServer(function(input, output, session) {
-
   #disabled tab on load:
-
   js$disableTab("t2")
   js$disableTab("t3")
   js$disableTab("t4")
   js$disableTab("t5")
   
   observe_helpers() # active help icon
+  
   ## input dataset
   source(file.path("Server","inputFileServer.R"), local = TRUE)$value
   
@@ -67,10 +68,13 @@ shinyServer(function(input, output, session) {
   ### PCA
   source(file.path("Server","PCAServer.R"), local = TRUE)$value
   
-  ###Statistics
+  ### Statistics
   source(file.path("Server","StatServer.R"), local = TRUE)$value
   
-  ###DAPC
+  ### Find Clusters
+  source(file.path("Server","FindClustersServer.R"), local = TRUE)$value
+  
+  ### DAPC
   source(file.path("Server","DAPCServer.R"), local = TRUE)$value
   
 }) # end shinyServer

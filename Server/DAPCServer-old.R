@@ -13,7 +13,15 @@
   ## GET DATA ##S
   getData <- reactive({
     out <- NULL
-  
+    
+    if(input$datatype=="expl"){
+      #if(input$dataset=="microbov") data("microbov", package="adegenet", envir=environment())
+      #if(input$dataset=="sim2pop") data("sim2pop", package="adegenet", envir=environment())
+      #if(input$dataset=="nancycats") data("nancycats", package="adegenet", envir=environment())
+      if(input$dataset=="Input") Input <- sr$Genind
+      out <- get(input$dataset)
+    }
+    
     if(input$datatype=="file" && !is.null(input$datafile)){
       ## need to rename input file
       oldName <- input$datafile$datapath
@@ -34,15 +42,11 @@
         out <- DNAbin2genind(fasta2DNAbin(newName))
       }
     }
-    else if(input$dataset=="Input"){
-      Input <- sr$Genind
-        out <- get(input$dataset)
-        updateSelectInput(session, "groupslider", choices = colnames(out$other)) 
-    }
     return(out)
   })
   
-
+  
+  
   
   ## DYNAMIC UI COMPONENTS ##
   ## SELECTION OF PCA AXES
@@ -222,17 +226,7 @@
     }
     if(!is.null(input$nda)) nda <- input$nda
     
-    if(!is.null(input$nclust)) nclust <- input$nclust
-    
-    if(!is.null(x)){ 
-      if(input$clusters == "pop"){
-          out <- dapc(x, pop(x), n.pca=npca, n.da=nda, parallel=FALSE)
-      }
-      else if(input$clusters == "num"){
-          grp.m<-find.clusters(x, n.clust=nclust, n.pca=npca)
-          out <- dapc(x, grp.m$grp, n.pca=npca, n.da=nda, parallel=FALSE)
-      }
-    }
+    if(!is.null(x)) out <- dapc(x, n.pca=npca, n.da=nda, parallel=FALSE)
     return(out)
   })
   
@@ -248,9 +242,9 @@
   output$scatterplot <- renderPlot({
     dapc1 <- getDapc()
     if(!is.null(dapc1)){
+      print(dapc1)
       ## get colors
       K <- length(levels(dapc1$grp))
-      print(K)
       myCol <- get(input$col.pal)(K)
       
       ## get screeplot info
@@ -434,18 +428,3 @@
   
   #      .render.server.info()
 
-  output$representationplot<- renderPlot({
-    x <- getData()
-    y <- getDapc()
-    table.value(table(x$other[,input$groupslider], y$assign), col.lab=levels(y$assign))
-  })
-  output$representationHM <- renderPlot({
-    x <- getData()
-    y <- getDapc()
-    Tab = as.matrix(table(x$other[,input$groupslider], y$assign))
-    Tab2 = matrix(Tab, nrow(Tab), ncol(Tab))
-    colnames(Tab2) = colnames(Tab)
-    rownames(Tab2) = rownames(Tab)
-    col_fun = colorRamp2(c(0, max(Tab2)), c("yellow", "red"))
-    Heatmap(Tab2, col = col_fun)
-  })

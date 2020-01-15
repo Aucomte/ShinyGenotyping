@@ -1,10 +1,12 @@
+## PCA server
+
 observeEvent(input$Submitpca, ignoreInit = TRUE, {
   sr$axeschoices = input$axeschoices
   sr$checkboxcolPCA = input$checkboxcolPCA
   sr$colsupDiv = input$colsupDiv
   sr$outpca = calculPCA(sr$table, sr$checkboxcolPCA, sr$colsupDiv)
-  updateCheckboxGroupInput(session, "checkboxcol", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected = sr$checkboxcolPCA)
-  updateSelectInput(session, "strata", choices = sr$colnames, selected = sr$colsupDiv)
+  #updateCheckboxGroupInput(session, "checkboxcol", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected = sr$checkboxcolPCA)
+  #updateSelectInput(session, "strata", choices = sr$colnames, selected = sr$colsupDiv)
   output$pcaInd <- renderPlot({
     if(sr$axeschoices == "axe1 vs axe2"){
       plotind12(sr$outpca)

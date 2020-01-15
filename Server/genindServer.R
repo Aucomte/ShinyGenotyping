@@ -7,6 +7,10 @@ observeEvent(input$Submit, {
   sr$Genind <- CreateGenindObject(sr$table, sr$checkboxcol, sr$strata, sr$genindtype, sr$ploidy_number)
   sr$haplotype_out = haplotypes(sr$Genind)
   sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
+  
+  # update PCA to adapt the already selected checkbox
+  updateSelectInput(session, "colsupDiv", choices = sr$colnames, selected=sr$strata)
+  updateCheckboxGroupInput(session, "checkboxcolPCA", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected=sr$checkboxcol)
 })
 
 # texte nombre d'haplo / nombre d'individus
