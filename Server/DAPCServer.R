@@ -42,26 +42,7 @@
     return(out)
   })
   
-
-  
   ## DYNAMIC UI COMPONENTS ##
-  ## SELECTION OF PCA AXES
-  output$npca <- renderUI({
-    if(!is.null(x <- getData())) {
-      nmax <- min(dim(x@tab))
-      def <- min(10, nmax)
-      
-      if(input$useoptimnpca){
-        xval1 <- xvaldapc()
-        npca <- as.integer(xval1[[6]])
-        def <- npca}
-      
-    } else {
-      nmax <- 1000
-      def <- 1
-    }
-    sliderInput("npca", "Number of PCA axes retained:", min=1, max=nmax, value=def,step=1)
-  })
   
   ## SELECTION OF DA AXES
   output$nda <- renderUI({
@@ -214,12 +195,9 @@
     npca <- nda <- 1
     
     ## n.pca determined by xval or slider?
-    if(input$useoptimnpca){
-      xval1 <- xvaldapc()
-      npca <- as.integer(xval1[[6]])
-    } else {
-      if(!is.null(input$npca)) npca <- input$npca
-    }
+
+    if(!is.null(input$npca)) npca <- input$npca
+  
     if(!is.null(input$nda)) nda <- input$nda
     
     if(!is.null(input$nclust)) nclust <- input$nclust
@@ -448,4 +426,9 @@
     rownames(Tab2) = rownames(Tab)
     col_fun = colorRamp2(c(0, max(Tab2)), c("yellow", "red"))
     Heatmap(Tab2, col = col_fun)
+  })
+  
+  output$assignplot <- renderPlot({
+    y <- getDapc()
+    assignplot(y)
   })
