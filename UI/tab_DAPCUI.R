@@ -41,8 +41,6 @@ tabItem(
                                      max = 100,
                                      value = 3)
         )
-
-
       ),
 
 
@@ -222,7 +220,12 @@ tabItem(
                              admixture, and about the way in which the selection of PCA axes affects the stability of membership probabilities.")
                            ),
                   tabPanel("AssignPlot", value=231,
-                           plotOutput("assignplot",height = "900px")
+                           plotOutput("assignplot",height = "900px"),
+                           # box(
+                           #   sliderInput("assign_evalue", label = "probalility of assignation", min = 0 ,max = 1,step=0.1, value=0.9)
+                           # ),
+                           # htmlOutput("assignind"),
+                           # plotOutput("assignCompo")
                   ),
                   tabPanel("Loading Plot", value=24, 
                            plotOutput("loadingplot",height = "600px"),

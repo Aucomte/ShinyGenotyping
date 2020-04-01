@@ -47,7 +47,11 @@ sr <- reactiveValues(
   clusters = NULL,
   
   # find cluster
-  findClus = 10
+  findClus = 10,
+  
+  #assignplot
+  assign_evalue = 0.9,
+  assignind = NULL
 )
 
 shinyServer(function(input, output, session) {

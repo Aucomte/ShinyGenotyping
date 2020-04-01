@@ -428,7 +428,22 @@
     Heatmap(Tab2, col = col_fun)
   })
   
+  ################# assignplot
+  
   output$assignplot <- renderPlot({
     y <- getDapc()
     assignplot(y)
   })
+  # observeEvent(input$assign_evalue, {
+  #   sr$assign_evalue = as.numeric(input$assign_evalue)
+  #   y <- getDapc()
+  #   sr$assignind <- which(apply(y$posterior,1,function(e) all(e<sr$assign_evalue)))
+  # })
+  # 
+  # output$assignind <-renderPrint({
+  #   sr$assignind
+  # })
+  #output$assignCompo <- renderPlot({
+  #  y <- getDapc()
+  #  compoplot(y, subset=sr$assign.ind, lab=input$compo.lab) #ncol= nb colonnes dans la l?gende, d?faut=4; cex.names= modifie la taille des noms sur abscisses
+  #})
