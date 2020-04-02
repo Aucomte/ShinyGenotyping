@@ -51,7 +51,9 @@ sr <- reactiveValues(
   
   #assignplot
   assign_evalue = 0.9,
-  assignind = NULL
+  assignind = NULL,
+  
+  SCncluster = 10
 )
 
 shinyServer(function(input, output, session) {
@@ -80,5 +82,8 @@ shinyServer(function(input, output, session) {
   
   ### DAPC
   source(file.path("Server","DAPCServer.R"), local = TRUE)$value
+  
+  ### SNAPCLUST
+  source(file.path("Server","SnapClustServer.R"), local = TRUE)$value
   
 }) # end shinyServer
