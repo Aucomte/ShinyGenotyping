@@ -56,7 +56,7 @@ sr <- reactiveValues(
   assignind = NULL,
 
 ######  Snapclust  
-  
+  dapcnclusterT = 10,
   SCnclusterT = 10,
   SCncluster = 10,
   

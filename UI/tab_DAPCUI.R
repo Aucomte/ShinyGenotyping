@@ -22,6 +22,12 @@ tabItem(
                        tags$hr()
       ),
       
+      conditionalPanel(condition="input.tabDAPC == '20'",
+      radioButtons("findK", "method to find the number of clusters", choices = c("FindClusters","SnapclustChooseK")),
+            conditionalPanel(condition= "input.findK == 'SnapclustChooseK'",
+                             sliderInput("dapcnclusterT", "Number of cluster tested:", min=1, max=100, value=10, step = 1)
+            )
+      ),
       sliderInput("npca", "Number of PCA axes retained:", min=1, max=1000, value=10),
       
       conditionalPanel(condition="input.tabDAPC != '20'",
@@ -172,9 +178,17 @@ tabItem(
     ## MAIN PANEL
     mainPanel(
       tabsetPanel(id = "tabDAPC",
-                  tabPanel("FindClusters", value=20,
-                           plotOutput("PCAclusterPlot")
+                  tabPanel("Find K", value=20,
+                           conditionalPanel(condition= "input.findK == 'FindClusters'",
+                              plotOutput("PCAclusterPlot") %>% withLoader(loader = "dnaspin")
                            ),
+                           conditionalPanel(condition= "input.findK == 'SnapclustChooseK'",
+                             plotOutput("dapcBIC") %>% withLoader(loader = "dnaspin"),
+                             plotOutput("dapcAIC") %>% withLoader(loader = "dnaspin"),
+                             plotOutput("dapcKIC") %>% withLoader(loader = "dnaspin")
+                           )
+
+                  ),
                   tabPanel("Scatterplot", value=21,
                            plotOutput("scatterplot",height = "600px"),
                            h3(br(),"Scatter Plot"),
