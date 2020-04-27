@@ -25,6 +25,8 @@ library(shinycustomloader)
 library(ComplexHeatmap)
 library(circlize)
 
+library(ggplot2)
+
 #leaflet = carte interactive
 
 # install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper",

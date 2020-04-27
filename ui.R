@@ -36,8 +36,8 @@ sidebar <- dashboardSidebar(
     menuItem("Input", tabName = "inputs", icon = icon("book-open")), 
     menuItem("Statistics", tabName = "stats", icon = icon("calculator")), 
     menuItem("DAPC", tabName = "DAPC", icon = icon("calculator")),
-    menuItem("SnapClust", tabName = "SnapClust", icon = icon("calculator")),
-    menuItem("TESS3R", tabName = "TESS3R", icon = icon("eye"))
+    menuItem("SnapClust", tabName = "SnapClust", icon = icon("calculator"))
+    #menuItem("TESS3R", tabName = "TESS3R", icon = icon("eye"))
   )
 )
 body <- dashboardBody(

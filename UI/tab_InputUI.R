@@ -5,11 +5,21 @@ tabItem(
     sidebarPanel(
       conditionalPanel(condition="input.tabselected2=='1'", 
                        h3("INPUT"),
-                       fileInput("file1", "CSV File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
+                       radioButtons("inputtype", "What data source to use?",
+                                    list("Repetition file"="rep","Genemapper Output"="genemapper-output")),
+                       conditionalPanel(condition = "input.inputtype=='rep'",
+                                   fileInput("file1", "CSV File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
+                       ),
+                       conditionalPanel(condition = "input.inputtype=='genemapper-output'",
+                                   fileInput("genemapperfile", "Genemapper File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
+                                   fileInput("Metadata", "Metadata File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
+                                   fileInput("repFile", "Repetition File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
+                       ),
                        radioButtons('sep', 'Separator',
                                     c(Semicolon=';',
                                       Tab='\t'),
-                                    selected = '\t')
+                                    selected = '\t'),
+                       actionButton("submitGenemapperFiles", label = "Submit files", icon = NULL, width = NULL)
       ),
       conditionalPanel(condition="input.tabselected2=='2'",   
                        h3("Create genotype object"),
@@ -23,6 +33,11 @@ tabItem(
     mainPanel(
       tabsetPanel(id = "tabselected2",
                   tabPanel("input", value=1,
+                           conditionalPanel(condition="input.inputtype=='genemapper-output'", 
+                                  DT::dataTableOutput(outputId = "GMdataset"),
+                                  DT::dataTableOutput(outputId = "REPdataset")
+                           ),
+                           
                            DT::dataTableOutput(outputId = "DataSet")
                   ),
                   tabPanel("Genotype object", value=2,

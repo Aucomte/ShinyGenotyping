@@ -14,6 +14,8 @@ sr <- reactiveValues(
   genindtype = NULL,
   haplotype_out = NULL,
   haplotypeloc_out = NULL,
+  genemapperCSV =NULL,
+  repCSV = NULL,
   
   outpca = NULL,
   axeschoices = "axe1 vs axe2",
@@ -52,8 +54,14 @@ sr <- reactiveValues(
   #assignplot
   assign_evalue = 0.9,
   assignind = NULL,
+
+######  Snapclust  
   
-  SCncluster = 10
+  SCnclusterT = 10,
+  SCncluster = 10,
+  
+  # group
+  GroupComparison = "None"
 )
 
 shinyServer(function(input, output, session) {
