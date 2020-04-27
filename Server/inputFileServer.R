@@ -5,7 +5,7 @@ getInput <- reactive({
   out <- NULL
   if(input$inputtype=="rep" && !is.null(input$file1)){
     ## need to rename input file
-    myCSV <- reactiveFileReader(100, session, input$file1$datapath, read.csv, sep = sr$sep, dec=".", row.names=1)
+    myCSV <- read.csv(input$file1$datapath, sep = sr$sep, dec=".", row.names=1)
   }
   else if(input$inputtype=="genemapper-output"){
     sr$genemapperCSV <- read.csv(input$genemapperfile$datapath, sep = sr$sep, dec=".")
