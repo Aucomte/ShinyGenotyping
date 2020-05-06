@@ -16,6 +16,8 @@ sr <- reactiveValues(
   haplotypeloc_out = NULL,
   genemapperCSV =NULL,
   repCSV = NULL,
+  metadataCSV = NULL,
+  inputF = NULL,
   
   outpca = NULL,
   axeschoices = "axe1 vs axe2",
@@ -23,6 +25,7 @@ sr <- reactiveValues(
   
   archive = NULL,
   xvm.stat = NULL,
+  pairwisefst = NULL,
   stats = NULL,
   ploidy_number = 1,
   Genind = NULL,

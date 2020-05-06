@@ -1,28 +1,36 @@
 ## Server File for the input file tab
 
+observeEvent(input$file1,{
+  sr$inputF= read.csv(input$file1$datapath, sep = sr$sep, dec=".", row.names=1)
+})
+observeEvent(input$genemapperfile,{
+  sr$genemapperCSV=read.csv(input$genemapperfile$datapath, sep = sr$sep, dec=".")
+})
+observeEvent(input$repFile,{
+  sr$repCSV=read.csv(input$repFile$datapath, sep = sr$sep, dec=".")
+})
+observeEvent(input$Metadata,{
+  sr$metadataCSV=read.csv(input$Metadata$datapath, sep = sr$sep, dec=".")
+})
+
 ## GET DATA ##S
 getInput <- reactive({
   out <- NULL
   if(input$inputtype=="rep" && !is.null(input$file1)){
-    ## need to rename input file
-    myCSV <- read.csv(input$file1$datapath, sep = sr$sep, dec=".", row.names=1)
+    myCSV = sr$inputF
   }
   else if(input$inputtype=="genemapper-output"){
-    sr$genemapperCSV <- read.csv(input$genemapperfile$datapath, sep = sr$sep, dec=".")
-    sr$repCSV <- read.csv(input$repFile$datapath, sep = sr$sep, dec=".")
     genemapperCSV3 <- sr$genemapperCSV[order(sr$genemapperCSV$Strain,sr$genemapperCSV$Marker),] 
-    
     genemapperCSV2 = data.frame(Strain = genemapperCSV3$Strain,
                                 Marker = genemapperCSV3$Marker,
                                 Allele.1 = genemapperCSV3$Allele.1)
     
-    
     #gestion des NA:
-    # verif.mark <- data.frame(ftable(Marker~Strain,data=genemapperCSV2))
-    # if (nrow(verif.mark[verif.mark$Freq!=1,])!=0){
-    #   nb.echant <- verif.mark[verif.mark$Freq==0,]
-    #   genemapperCSV2 <- rbind(genemapperCSV2,data.frame(nb.echant[,c("Sample.Name","Marker")],Allele.1=NA))
-    # }
+    verif.mark <- data.frame(ftable(Marker~Strain,data=genemapperCSV2))
+    if (nrow(verif.mark[verif.mark$Freq!=1,])!=0){
+      nb.echant <- verif.mark[verif.mark$Freq==0,]
+      genemapperCSV2 <- rbind(genemapperCSV2,data.frame(nb.echant[,c("Sample.Name","Marker")],Allele.1=NA))
+    }
     
     ##ON nomme les colonnes
     names(genemapperCSV2)<-c("Strain", "Locus", "Size")
@@ -46,12 +54,15 @@ getInput <- reactive({
         }
       }
     }
-    
     # metadata
     if (!is.null(input$Metadata)){
-      metadataCSV <- read.csv(input$Metadata$datapath, sep = sr$sep, dec=".")
+      myCSV <- left_join(myCSV, sr$metadataCSV, by="Strain")
     }
-    
+    rownames(myCSV) = myCSV[,"Strain"]
+    myCSV = myCSV[,colnames(myCSV) != "Strain"]
+    #Strain<-rownames(myCSV)
+    #myCSV<-cbind(Strain,myCSV)
+    myCSV = as.data.frame(myCSV)
   }
   return(myCSV)
 })
@@ -68,7 +79,7 @@ observeEvent(
     updateCheckboxGroupInput(session, "checkboxcol", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
     updateCheckboxGroupInput(session, "checkboxcolPCA", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
 
-    updateSelectInput(session, "strata", choices = sr$colnames)
+    updateSelectInput(session, "strata", choices = c("None",sr$colnames))
     updateSelectInput(session, "colsupDiv", choices = sr$colnames)
     
     updateSelectInput(session, "GroupComparison", choices = sr$colnames)
@@ -77,6 +88,23 @@ observeEvent(
 output$GMdataset <- DT::renderDataTable(
   DT::datatable(
    sr$genemapperCSV, 
+    filter = list(position = 'top', clear = TRUE, plain = FALSE), 
+    options = list(
+      scrollX = TRUE,
+      dom = 'Blfrtip',
+      lengthMenu = list( c(10, 20, -1), c(10, 20, "All")),
+      initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().header()).css({'background-color': '#3C3C3C', 'color': '#fff'});",
+        "}"
+      )
+    )
+  )
+)
+
+output$Metadataset <- DT::renderDataTable(
+  DT::datatable(
+    sr$metadataCSV, 
     filter = list(position = 'top', clear = TRUE, plain = FALSE), 
     options = list(
       scrollX = TRUE,
@@ -112,9 +140,53 @@ output$fileUploaded <- reactive({
   return(!is.null(sr$table))
 })
 
-output$DataSet <- DT::renderDataTable(
+output$DataSetFinal <- DT::renderDataTable(server = FALSE,{
   DT::datatable(
     sr$table, 
+    extensions = 'Buttons',
+    filter = list(position = 'top', clear = TRUE, plain = FALSE), 
+    options = list(
+      scrollX = TRUE,
+      dom = 'Blfrtip',
+      buttons = list(
+        'copy', 
+        'print',
+        list(
+          extend = "collection", 
+          text = "Download",
+          action = DT::JS("function ( e, dt, node, config ) { Shiny.setInputValue('testDLtable', true, {priority: 'event'});}")
+        )
+      ),
+      lengthMenu = list( c(10, 20, -1), c(10, 20, "All")),
+      initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().header()).css({'background-color': '#3C3C3C', 'color': '#fff'});",
+        "}"
+      )
+    )
+  )
+})
+output$downloadIF <- downloadHandler(
+  filename = function() {
+    paste("data-", Sys.Date(), ".csv", sep="")
+  },
+  content = function(file) {
+    write.table(sr$table, file, sep="\t", dec= ",", col.names = T, row.names = F)
+  }
+)
+myModalIF <- function() {
+  div(id = "testDLtable",
+      modalDialog(downloadButton("downloadIF","Download as csv"),easyClose = TRUE, title = "Download Table")
+  )
+}
+observeEvent(input$testDLtable, {
+  showModal(myModalIF())
+})
+
+
+output$DataSet <- DT::renderDataTable(
+  DT::datatable(
+    sr$inputF, 
     filter = list(position = 'top', clear = TRUE, plain = FALSE), 
     options = list(
       scrollX = TRUE,

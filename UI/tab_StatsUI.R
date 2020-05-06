@@ -74,12 +74,19 @@ tabItem(
                                                     %>% withLoader(loader = "dnaspin")
                                                 ),
                                                 box(width = 12,
-                                                    "Hierarchical F-Statistics :", 
+                                                    "Pairwise FST :",
                                                     br(),
-                                                    DT::dataTableOutput(outputId = "genind2hierfstat") 
+                                                    DT::dataTableOutput(outputId = "pairwiseFST")
                                                     #%>% withSpinner(color="#0dc5c1")
                                                     %>% withLoader(loader = "dnaspin")
-                                                ),
+                                                 ),
+                                                # box(width = 12,
+                                                #     "Hierarchical F-Statistics :",
+                                                #     br(),
+                                                #     DT::dataTableOutput(outputId = "genind2hierfstat")
+                                                #     #%>% withSpinner(color="#0dc5c1")
+                                                #     %>% withLoader(loader = "dnaspin")
+                                                # ),
                                                 box(width = 12,
                                                     "missing data by locus and by population:",
                                                     br(),

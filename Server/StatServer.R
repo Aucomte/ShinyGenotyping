@@ -2,6 +2,7 @@
 archiveCreation <- observeEvent(input$submitarchive, ignoreInit = TRUE, {
   sr$archive = diversitybyloc(sr$Genind)
   sr$xvm.stat = genind2hierfstat(sr$Genind)
+  sr$pairwisefst = as.matrix(genet.dist(sr$Genind, method="WC84"))
   
   output$heatmapDiv <- renderPlot({
     info_table(sr$Genind, plot=TRUE)
@@ -50,6 +51,34 @@ archiveCreation <- observeEvent(input$submitarchive, ignoreInit = TRUE, {
   }
   observeEvent(input$test2, {
     showModal(myModal2())
+  })
+  
+  output$pairwiseFST<- DT::renderDataTable({
+    DT::datatable(
+      sr$pairwisefst,
+      filter = list(position = 'top', clear = TRUE, plain = FALSE),
+      extensions = 'Buttons', 
+      options = list(
+        scrollX=TRUE,
+        dom = 'Blfrtip', 
+        buttons = list(
+          'copy', 
+          'print',
+          list(
+            extend = "collection", 
+            text = "Download entire dataset",
+            #buttons = c("csv","excel","pdf"),
+            action = DT::JS("function ( e, dt, node, config ) { Shiny.setInputValue('test3', true, {priority: 'event'});}")
+          )
+        ),
+        lengthMenu = list( c(10, 20, -1), c(10, 20, "All")),
+        initComplete = JS(
+          "function(settings, json) {",
+          "$(this.api().table().header()).css({'background-color': '#3C3C3C', 'color': '#fff'});",
+          "}"
+        )
+      )
+    )
   })
   
   output$genostatbasePerLoc <- DT::renderDataTable({

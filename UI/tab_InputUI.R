@@ -34,11 +34,17 @@ tabItem(
       tabsetPanel(id = "tabselected2",
                   tabPanel("input", value=1,
                            conditionalPanel(condition="input.inputtype=='genemapper-output'", 
+                                  h3("Genemapper table :"),
                                   DT::dataTableOutput(outputId = "GMdataset"),
-                                  DT::dataTableOutput(outputId = "REPdataset")
+                                  DT::dataTableOutput(outputId = "Metadataset"),
+                                  h3("repetition table :"),
+                                  DT::dataTableOutput(outputId = "REPdataset"),
+                                  h3("Final Table :"),
+                                  DT::dataTableOutput(outputId = "DataSetFinal")
                            ),
-                           
-                           DT::dataTableOutput(outputId = "DataSet")
+                           conditionalPanel(condition="input.inputtype=='rep'", 
+                                  DT::dataTableOutput(outputId = "DataSet")
+                           )
                   ),
                   tabPanel("Genotype object", value=2,
                            fluidRow(

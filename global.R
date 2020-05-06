@@ -26,6 +26,7 @@ library(ComplexHeatmap)
 library(circlize)
 
 library(ggplot2)
+library(dplyr)
 
 #leaflet = carte interactive
 
@@ -34,9 +35,15 @@ library(ggplot2)
 #                    "shinycssloaders","shinycustomloader"))
 
 CreateGenindObject <- function(col.xvm, colone, colonesup, typehap, ploidy_number){
-  c.xvm<-df2genind(col.xvm[,colone],pop=as.factor(col.xvm[,colonesup]), ploidy=ploidy_number, ncode=2, NA.char="NA", type=typehap)
-  c.xvm$other <- col.xvm[, names(col.xvm) != colone]
-  strata(c.xvm)<-data.frame(other(c.xvm))[colonesup]
+  if (colonesup != "None"){
+    c.xvm<-df2genind(col.xvm[,colone],pop=as.factor(col.xvm[,colonesup]), ploidy=ploidy_number, ncode=2, NA.char="NA", type=typehap)
+    c.xvm$other <- col.xvm[, !(names(col.xvm) %in% colone)]
+    strata(c.xvm)<-data.frame(other(c.xvm))[colonesup]
+  }
+  else {
+    c.xvm<-df2genind(col.xvm[,colone],pop=NULL, ploidy=ploidy_number, ncode=2, NA.char="NA", type=typehap)
+    c.xvm$other <- col.xvm[, !(names(col.xvm) %in% colone)]
+  }
   return(c.xvm)
 }
 
