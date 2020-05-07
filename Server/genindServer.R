@@ -5,7 +5,7 @@ observeEvent(input$Submit, {
   sr$checkboxcol = input$checkboxcol
   
   # update PCA to adapt the already selected checkbox
-  updateSelectInput(session, "colsupDiv", choices = sr$colnames, selected=sr$strata)
+  #updateSelectInput(session, "colsupDiv", choices = csr$colnames, selected=sr$strata)
   updateCheckboxGroupInput(session, "checkboxcolPCA", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames, selected=sr$checkboxcol)
   
   # Calculate 

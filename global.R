@@ -87,9 +87,16 @@ haplotypesLocus <- function(col, colonnes, haplo.xvm){
 
 calculPCA <- function(tab, colone, colonesup){
   listpca = list()
-  genotypes<-tab[,c(colone,colonesup)] # we extract the genotypes and the columns "Origin"(Pays) and "hplotype_SNP"
-  l = length(colone)
-  mlva12<-PCA(genotypes, quali.sup=l+1) # correlations circle, to assess the contribution of variables (loci)
+  if(colonesup != "None"){
+    genotypes<-tab[,c(colone,colonesup)] 
+    l = length(colone)
+    mlva12<-PCA(genotypes, quali.sup=l+1)
+  }
+  else{
+    genotypes<-tab[,colone] 
+    l = length(colone)
+    mlva12<-PCA(genotypes, quali.sup=l)
+  }
   return(mlva12)
 }
 #1v2
@@ -101,14 +108,18 @@ plotvar12 <- function(mlva12){
   pv12 = plot.PCA(mlva12, axes=c(1,2), choix = "var")
   return(pv12)
 }
-habillageind12 <- function(mlva12, colone){ 
+habillageind12 <- function(mlva12, colone, colonesup){ 
   l = length(colone)
-  h12 = plot.PCA(mlva12, axes=c(1,2), choix="ind", habillage=l+1)
+  if(colonesup != "None"){
+    h12 = plot.PCA(mlva12, axes=c(1,2), choix="ind", habillage=l+1)
+  }
   return(h12)
 }
-habillageind12inv <- function(mlva12, colone){ 
+habillageind12inv <- function(mlva12, colone, colonesup){ 
   l = length(colone)
-  h12i = plot.PCA(mlva12, axes=c(1,2), choix="ind", invisible="ind", habillage=l+1)
+  if(colonesup != "None"){
+    h12i = plot.PCA(mlva12, axes=c(1,2), choix="ind", invisible="ind", habillage=l+1)
+  }
   return(h12i)
 }
 #1v3
@@ -120,14 +131,18 @@ plotvar13 <- function(mlva12){
   pv13 = plot.PCA(mlva12, axes=c(1,3), choix = "var")
   return(pv13)
 }
-habillageind13 <- function(mlva12, colone){ 
+habillageind13 <- function(mlva12, colone, colonesup){ 
   l = length(colone)
-  h13 = plot.PCA(mlva12, axes=c(1,3), choix="ind", habillage=l+1)
+  if(colonesup != "None"){
+    h13 = plot.PCA(mlva12, axes=c(1,3), choix="ind", habillage=l+1)
+  }
   return(h13)
 }
-habillageind13inv <- function(mlva12, colone){ 
+habillageind13inv <- function(mlva12, colone, colonesup){ 
   l = length(colone)
-  h13i = plot.PCA(mlva12, axes=c(1,3), choix="ind", invisible="ind", habillage=l+1)
+  if(colonesup != "None"){
+    h13i = plot.PCA(mlva12, axes=c(1,3), choix="ind", invisible="ind", habillage=l+1)
+  }
   return(h13i)
 }
 #2v3
@@ -139,14 +154,18 @@ plotvar23 <- function(mlva12){
   pv23 = plot.PCA(mlva12, axes=c(2,3), choix = "var")
   return(pv23)
 }
-habillageind23 <- function(mlva12, colone){ 
+habillageind23 <- function(mlva12, colone, colonesup){ 
   l = length(colone)
-  h23 = plot.PCA(mlva12, axes=c(2,3), choix="ind", habillage=l+1)
+  if(colonesup != "None"){
+    h23 = plot.PCA(mlva12, axes=c(2,3), choix="ind", habillage=l+1)
+  }
   return(h23)
 }
-habillageind23inv <- function(mlva12, colone){ 
+habillageind23inv <- function(mlva12, colone, colonesup){ 
   l = length(colone)
-  h23i = plot.PCA(mlva12, axes=c(2,3), choix="ind", invisible="ind", habillage=l+1)
+  if(colonesup != "None"){
+    h23i = plot.PCA(mlva12, axes=c(2,3), choix="ind", invisible="ind", habillage=l+1)
+  }
   return(h23i)
 }
 

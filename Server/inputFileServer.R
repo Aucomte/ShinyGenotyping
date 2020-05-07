@@ -80,7 +80,7 @@ observeEvent(
     updateCheckboxGroupInput(session, "checkboxcolPCA", inline = TRUE, choiceNames = sr$colnames, choiceValues = sr$colnames)
 
     updateSelectInput(session, "strata", choices = c("None",sr$colnames))
-    updateSelectInput(session, "colsupDiv", choices = sr$colnames)
+    updateSelectInput(session, "colsupDiv", choices = c("None",sr$colnames))
     
     updateSelectInput(session, "GroupComparison", choices = sr$colnames)
   })

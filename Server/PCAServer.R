@@ -31,24 +31,24 @@ observeEvent(input$Submitpca, ignoreInit = TRUE, {
   })
   output$pcahab <- renderPlot({
     if(sr$axeschoices == "axe1 vs axe2"){
-      habillageind12(sr$outpca, sr$checkboxcolPCA)
+      habillageind12(sr$outpca, sr$checkboxcolPCA, sr$colsupDiv)
     }
     else if(sr$axeschoices == "axe1 vs axe3"){
-      habillageind13(sr$outpca, sr$checkboxcolPCA)
+      habillageind13(sr$outpca, sr$checkboxcolPCA, sr$colsupDiv)
     }
     else if(sr$axeschoices == "axe2 vs axe3"){
-      habillageind23(sr$outpca, sr$checkboxcolPCA)
+      habillageind23(sr$outpca, sr$checkboxcolPCA, sr$colsupDiv)
     }
   })
   output$pcahabi <- renderPlot({
     if(sr$axeschoices == "axe1 vs axe2"){
-      habillageind12inv(sr$outpca, sr$checkboxcolPCA)
+      habillageind12inv(sr$outpca, sr$checkboxcolPCA, sr$colsupDiv)
     }
     else if(sr$axeschoices == "axe1 vs axe3"){
-      habillageind13inv(sr$outpca, sr$checkboxcolPCA)
+      habillageind13inv(sr$outpca, sr$checkboxcolPCA, sr$colsupDiv)
     }
     else if(sr$axeschoices == "axe2 vs axe3"){
-      habillageind23inv(sr$outpca, sr$checkboxcolPCA)
+      habillageind23inv(sr$outpca, sr$checkboxcolPCA, sr$colsupDiv)
     }
   })
 })

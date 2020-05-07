@@ -40,14 +40,16 @@ tabItem(
                                                   plotOutput(outputId = "pcaVar", height = "600px")
                                                   %>% withLoader(loader = "dnaspin")
                                               ),
-                                              fluidRow(
-                                                box(width = 6,
-                                                    plotOutput(outputId = "pcahab", height = "600px")
-                                                    %>% withLoader(loader = "dnaspin")
-                                                ),
-                                                box(width = 6,
-                                                    plotOutput(outputId = "pcahabi", height = "600px")
-                                                    %>% withLoader(loader = "dnaspin")
+                                              conditionalPanel("input.colsupDiv != 'None'",
+                                                fluidRow(
+                                                  box(width = 6,
+                                                      plotOutput(outputId = "pcahab", height = "600px")
+                                                      %>% withLoader(loader = "dnaspin")
+                                                  ),
+                                                  box(width = 6,
+                                                      plotOutput(outputId = "pcahabi", height = "600px")
+                                                      %>% withLoader(loader = "dnaspin")
+                                                  )
                                                 )
                                               )
                                             )
