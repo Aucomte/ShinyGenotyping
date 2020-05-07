@@ -13,6 +13,7 @@ observeEvent(input$Submit, {
   sr$Genind <- CreateGenindObject(sr$table, sr$checkboxcol, sr$strata, sr$genindtype, sr$ploidy_number)
   sr$haplotype_out = haplotypes(sr$Genind)
   sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
+  
 })
 
 # texte nombre d'haplo / nombre d'individus

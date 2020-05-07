@@ -11,7 +11,8 @@ tabItem(
                        actionButton(inputId="Submitpca","Submit")
       ),
       conditionalPanel(condition="input.tabselected == '4'", 
-                       actionButton("submitarchive", "Calculate the diversity by locus (can be long)")
+                       h3("WARNING : works only if a population is defined for gening object. Can be long to run."),
+                       actionButton("submitarchive", "Calculate the diversity by locus")
       ),
       conditionalPanel(condition="input.tabselected == '5'", 
                        radioButtons(inputId = "drop", "non prise en compte des loci monomorphes :", choiceNames =  c("yes","no"), choiceValues = c("T","F"), selected = "F"),
@@ -69,19 +70,19 @@ tabItem(
                              fluidRow(
                                conditionalPanel("input.submitarchive",
                                                 box(width = 12,
-                                                    "Individual counts, allelic frequencies, observed heterozygosities and genetic diversities by locus :",
-                                                    br(),
-                                                    DT::dataTableOutput(outputId = "genostatbasePerLoc") 
-                                                    #%>% withSpinner(color="#0dc5c1")
-                                                    %>% withLoader(loader = "dnaspin")
-                                                ),
-                                                box(width = 12,
                                                     "Pairwise FST :",
                                                     br(),
                                                     DT::dataTableOutput(outputId = "pairwiseFST")
                                                     #%>% withSpinner(color="#0dc5c1")
                                                     %>% withLoader(loader = "dnaspin")
                                                  ),
+                                                box(width = 12,
+                                                    "Individual counts, allelic frequencies, observed heterozygosities and genetic diversities by locus :",
+                                                    br(),
+                                                    DT::dataTableOutput(outputId = "genostatbasePerLoc") 
+                                                    #%>% withSpinner(color="#0dc5c1")
+                                                    %>% withLoader(loader = "dnaspin")
+                                                ),
                                                 # box(width = 12,
                                                 #     "Hierarchical F-Statistics :",
                                                 #     br(),
