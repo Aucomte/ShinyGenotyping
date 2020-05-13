@@ -38,7 +38,7 @@ CreateGenindObject <- function(col.xvm, colone, colonesup, typehap, ploidy_numbe
   if (colonesup != "None"){
     c.xvm<-df2genind(col.xvm[,colone],pop=as.factor(col.xvm[,colonesup]), ploidy=ploidy_number, ncode=2, NA.char="NA", type=typehap)
     c.xvm$other <- col.xvm[, !(names(col.xvm) %in% colone)]
-    strata(c.xvm)<-data.frame(other(c.xvm))[colonesup]
+    #strata(c.xvm)<-genind2df(c.xvm$other)[colonesup]
   }
   else {
     c.xvm<-df2genind(col.xvm[,colone],pop=NULL, ploidy=ploidy_number, ncode=2, NA.char="NA", type=typehap)
@@ -60,17 +60,14 @@ return(haplo.xvm)
 }
 
 haplotypesLocus <- function(col, colonnes, haplo.xvm){
-  x = matrix(nrow = nrow(haplo.xvm), ncol = length(colonnes)+1)
+  x = matrix(nrow = nrow(col), ncol = length(colonnes)+1)
   colnames(x) =  c("Haplotypes", colonnes)
-
   for(i in 1:nrow(col)){
     for(i2 in 1:nrow(haplo.xvm)){
-    
       if(as.character(rownames(col)[i]) == as.character(haplo.xvm[i2,2])){
         x[i,1] = haplo.xvm[i2,1]
         for(j in 1:ncol(col)){
           for(j2 in 2:ncol(x)){
-            
             if(as.character(colnames(col)[j]) == as.character(colnames(x)[j2])){
               x[i,j2] <- col[i,j]
             }

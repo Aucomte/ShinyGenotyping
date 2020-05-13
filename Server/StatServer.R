@@ -194,3 +194,13 @@ output$downloadDiv <- downloadHandler(
   },
   contentType = "application/zip"
 )
+
+# MST
+
+output$MSTpop <- renderPlot(
+  aboot(x = sr$genind,strata=sr$strata)
+)
+output$MSTind <- renderPlot(
+  aboot(x = sr$genind)
+)
+

@@ -41,7 +41,7 @@ tabItem(
                                                   plotOutput(outputId = "pcaVar", height = "600px")
                                                   %>% withLoader(loader = "dnaspin")
                                               ),
-                                              conditionalPanel("input.colsupDiv != 'None'",
+                                              conditionalPanel(condition = "input.colsupDiv != 'None'",
                                                 fluidRow(
                                                   box(width = 6,
                                                       plotOutput(outputId = "pcahab", height = "600px")
@@ -117,6 +117,12 @@ tabItem(
                                                 DT::dataTableOutput(outputId = "popprtab")
                                                 %>% withLoader(loader = "dnaspin")
                                             )
+                           )
+                  ),
+                  tabPanel("MST", value=7,
+                           plotOutput(outputId = "MSTind", height = "800px") %>% withLoader(loader = "dnaspin"),
+                           conditionalPanel("input.strata!= 'None'",
+                              plotOutput(outputId = "MSTpop", height = "800px") %>% withLoader(loader = "dnaspin")
                            )
                   )
       )
