@@ -33,38 +33,43 @@ tabItem(
     mainPanel(
       tabsetPanel(id = "tabselected2",
                   tabPanel("input", value=1,
-                           conditionalPanel(condition="input.inputtype=='genemapper-output'", 
-                                  h3("Genemapper table :"),
-                                  DT::dataTableOutput(outputId = "GMdataset"),
-                                  DT::dataTableOutput(outputId = "Metadataset"),
-                                  h3("repetition table :"),
-                                  DT::dataTableOutput(outputId = "REPdataset"),
-                                  h3("Final Table :"),
-                                  DT::dataTableOutput(outputId = "DataSetFinal")
+                           fluidRow(
+                             box(width = 12, "After submitting, please fill in the genotype object slot to indicate your loci, and the variable you choose as population."),
+                             conditionalPanel(condition="input.inputtype=='genemapper-output'", 
+                                    h3("Genemapper table :"),
+                                    DT::dataTableOutput(outputId = "GMdataset"),
+                                    DT::dataTableOutput(outputId = "Metadataset"),
+                                    h3("repetition table :"),
+                                    DT::dataTableOutput(outputId = "REPdataset"),
+                                    h3("Final Table :"),
+                                    DT::dataTableOutput(outputId = "DataSetFinal")
+                             )
                            ),
                            conditionalPanel(condition="input.inputtype=='rep'", 
                                   DT::dataTableOutput(outputId = "DataSet")
                            )
                   ),
                   tabPanel("Genotype object", value=2,
-                           fluidRow(
-                             box(width = 12,
-                                 textOutput("numberOfHaplo"),
-                                 textOutput("numberOfind")
-                             )
-                             # ,
-                             # fluidRow(
-                             #   box(width = 12,
-                             #     htmlOutput("genindStat")
-                             #   )
-                             # )
-                           ),
-                           fluidRow(
-                             box(width = 12,
-                                 DT::dataTableOutput(outputId = "tabhaplo")
+                           conditionalPanel(condition= "input.Submit",
+                             fluidRow(
+                               box(width = 12,
+                                   textOutput("numberOfHaplo"),
+                                   textOutput("numberOfind")
+                               )
                              ),
-                             box(width = 12,
-                                 DT::dataTableOutput(outputId = "tabhaploloc")
+                             fluidRow(
+                               box(width = 12,
+                                   h3("Table 1: Haplotypes and Strains.")
+                               ),
+                               box(width = 12,
+                                   DT::dataTableOutput(outputId = "tabhaplo") %>% withLoader(loader = "dnaspin")
+                               ),
+                               box(width = 12,
+                                   h3("Table 2: Allelic profiles of the haplotypes.")
+                               ),
+                               box(width = 12, 
+                                   DT::dataTableOutput(outputId = "tabhaploloc") %>% withLoader(loader = "dnaspin")
+                               )
                              )
                            )
                   )
