@@ -29,10 +29,10 @@ library(ggplot2)
 library(dplyr)
 
 #leaflet = carte interactive
-
-# install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper",
-#                    "adegenet","poppr","plyr","FactoMineR","PopGenReport","hierfstat","pegas","colourpicker","shinyFeedback","shinyFiles",
-#                    "shinycssloaders","shinycustomloader"))
+# 
+#  install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper",
+#                     "adegenet","poppr","plyr","FactoMineR","PopGenReport","hierfstat","pegas","colourpicker","shinyFeedback","shinyFiles",
+#                     "shinycssloaders","shinycustomloader", "ComplexHeatmap","circlize", "ggplot2", "dplyr"))
 
 CreateGenindObject <- function(col.xvm, colone, colonesup, typehap, ploidy_number){
   if (colonesup != "None"){

@@ -47,7 +47,7 @@ body <- dashboardBody(
   #tags$head(tags$script(HTML(js))),
   tabItems(
     
-    source(file.path("UI", "tab_HomeUI.R"), local = TRUE, chdir = TRUE)$value,
+    #source(file.path("UI", "tab_HomeUI.R"), local = TRUE, chdir = TRUE)$value,
     
     source(file.path("UI", "tab_InputUI.R"), local = TRUE, chdir = TRUE)$value,
     

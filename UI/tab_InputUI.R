@@ -8,12 +8,24 @@ tabItem(
                        radioButtons("inputtype", "What data source to use?",
                                     list("Repetition file"="rep","Genemapper Output"="genemapper-output")),
                        conditionalPanel(condition = "input.inputtype=='rep'",
-                                   fileInput("file1", "CSV File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
+                                   fileInput("file1", "CSV File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")) %>%
+                                     helper(icon = "question",
+                                            type = "markdown",
+                                            content = "file1")
                        ),
                        conditionalPanel(condition = "input.inputtype=='genemapper-output'",
-                                   fileInput("genemapperfile", "Genemapper File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
-                                   fileInput("Metadata", "Metadata File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
-                                   fileInput("repFile", "Repetition File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
+                                   fileInput("genemapperfile", "Genemapper File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))%>%
+                                     helper(icon = "question",
+                                            type = "markdown",
+                                            content = "genemapperfile"),
+                                   fileInput("Metadata", "Metadata File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))%>%
+                                     helper(icon = "question",
+                                            type = "markdown",
+                                            content = "Metadata"),
+                                   fileInput("repFile", "Repetition File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))%>%
+                                     helper(icon = "question",
+                                            type = "markdown",
+                                            content = "repFile")
                        ),
                        radioButtons('sep', 'Separator',
                                     c(Semicolon=';',
@@ -35,14 +47,23 @@ tabItem(
                   tabPanel("input", value=1,
                            fluidRow(
                              box(width = 12, "After submitting, please fill in the genotype object slot to indicate your loci, and the variable you choose as population."),
-                             conditionalPanel(condition="input.inputtype=='genemapper-output'", 
-                                    h3("Genemapper table :"),
+                             conditionalPanel(condition="input.inputtype=='genemapper-output'",
+                                    conditionalPanel(condition="output.GMdataset",
+                                      h3("Genemapper table :")
+                                    ),
                                     DT::dataTableOutput(outputId = "GMdataset"),
+                                    conditionalPanel(condition="output.Metadataset",
+                                      h3("Metadata table :")
+                                    ),
                                     DT::dataTableOutput(outputId = "Metadataset"),
-                                    h3("repetition table :"),
+                                    conditionalPanel(condition="output.REPdataset",
+                                      h3("repetition table :")
+                                    ),
                                     DT::dataTableOutput(outputId = "REPdataset"),
-                                    h3("Final Table :"),
-                                    DT::dataTableOutput(outputId = "DataSetFinal")
+                                    conditionalPanel(condition="input.Submit",
+                                      h3("Final Table :"),
+                                      DT::dataTableOutput(outputId = "DataSetFinal")
+                                    )
                              )
                            ),
                            conditionalPanel(condition="input.inputtype=='rep'", 
