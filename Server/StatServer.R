@@ -2,7 +2,21 @@
 archiveCreation <- observeEvent(input$submitarchive, ignoreInit = TRUE, {
   sr$archive = diversitybyloc(sr$Genind)
   sr$xvm.stat = genind2hierfstat(sr$Genind)
+  print(sr$xvm.stat)
   sr$pairwisefst = as.matrix(genet.dist(sr$Genind, method="WC84"))
+  X = allelic.richness(sr$xvm.stat,diploid=F)
+  sr$richness = X$Ar
+  sr$richnessMIN = X$min.all
+  colnames(sr$richness) = levels(X$pop)
+  
+  if(sr$ploidy_number == 2){
+    sr$stats =rbind(basic.stats(c.xvm, diploid=T, digits=2)$perloc, rbind(basic.stats(c.xvm, diploid=T, digits=2)$overall))
+    rownames(sr$stats)[nrow(sr$stats)] = "Overall"
+  }
+  else{
+    sr$stats =rbind(basic.stats(c.xvm, diploid=F, digits=2)$perloc, rbind(basic.stats(c.xvm, diploid=F, digits=2)$overall))
+    rownames(sr$stats)[nrow(sr$stats)] = "Overall"
+  }
   
   output$heatmapDiv <- renderPlot({
     info_table(sr$Genind, plot=TRUE)
@@ -83,12 +97,7 @@ archiveCreation <- observeEvent(input$submitarchive, ignoreInit = TRUE, {
   
   output$genostatbasePerLoc <- DT::renderDataTable({
     DT::datatable(
-      if(sr$ploidy_number == 2){
-        sr$stats = basic.stats(sr$xvm.stat, diploid=T, digits=2)$perloc
-      }
-      else{
-        sr$stats =  basic.stats(sr$xvm.stat, diploid=F, digits=2)$perloc
-      },
+      sr$stats,
       filter = list(position = 'top', clear = TRUE, plain = FALSE),
       extensions = 'Buttons', 
       options = list(
@@ -204,3 +213,34 @@ output$MSTind <- renderPlot(
   aboot(x = sr$genind)
 )
 
+output$AllelicRichness<- DT::renderDataTable({
+  DT::datatable(
+    sr$richness,
+    filter = list(position = 'top', clear = TRUE, plain = FALSE),
+    extensions = 'Buttons', 
+    options = list(
+      scrollX=TRUE,
+      dom = 'Blfrtip', 
+      buttons = list(
+        'copy', 
+        'print',
+        list(
+          extend = "collection", 
+          text = "Download entire dataset",
+          #buttons = c("csv","excel","pdf"),
+          action = DT::JS("function ( e, dt, node, config ) { Shiny.setInputValue('test3', true, {priority: 'event'});}")
+        )
+      ),
+      lengthMenu = list( c(10, 20, -1), c(10, 20, "All")),
+      initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().header()).css({'background-color': '#3C3C3C', 'color': '#fff'});",
+        "}"
+      )
+    )
+  )
+})
+
+output$AllelicRichnessMIN <- renderText(
+  sr$richnessMIN
+)

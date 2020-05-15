@@ -56,12 +56,12 @@ tabItem(
                                             )
                            )
                   ),
-                  tabPanel("PopGeneReport", value=4, id = "t4",
+                  tabPanel("Basic statistics", value=4, id = "t4",
                            fluidRow(
                              fluidRow(
                                conditionalPanel("output.heatmapDiv",
                                                 box(width = 12,
-                                                    "Diversity by locus, estimated by PopGeneReport :   ", 
+                                                    h4("Diversity by locus, estimated by PopGeneReport :   "), 
                                                     br(),
                                                     downloadButton('downloadDiv', 'Download Output archive',style="color: #fff; background-color: #ff0000; border-color: #000000; text-align: center;")
                                                 )
@@ -70,31 +70,29 @@ tabItem(
                              fluidRow(
                                conditionalPanel("input.submitarchive",
                                                 box(width = 12,
-                                                    "Pairwise FST :",
-                                                    br(),
+                                                    h4("Pairwise FST :"),
                                                     DT::dataTableOutput(outputId = "pairwiseFST")
-                                                    #%>% withSpinner(color="#0dc5c1")
                                                     %>% withLoader(loader = "dnaspin")
                                                  ),
                                                 box(width = 12,
-                                                    "Individual counts, allelic frequencies, observed heterozygosities and genetic diversities by locus :",
-                                                    br(),
+                                                    h4("Basic statistics per locus (hierfstat) :")%>%
+                                                      helper(icon = "question",
+                                                             type = "markdown",
+                                                             content = "genostatbasePerLoc"),
                                                     DT::dataTableOutput(outputId = "genostatbasePerLoc") 
-                                                    #%>% withSpinner(color="#0dc5c1")
                                                     %>% withLoader(loader = "dnaspin")
                                                 ),
-                                                # box(width = 12,
-                                                #     "Hierarchical F-Statistics :",
-                                                #     br(),
-                                                #     DT::dataTableOutput(outputId = "genind2hierfstat")
-                                                #     #%>% withSpinner(color="#0dc5c1")
-                                                #     %>% withLoader(loader = "dnaspin")
-                                                # ),
                                                 box(width = 12,
-                                                    "missing data by locus and by population:",
+                                                    h4("The number of alleles used for rarefaction :"),
+                                                    verbatimTextOutput("AllelicRichnessMIN"),
+                                                    h4("Rarefied allele counts :"),
+                                                    DT::dataTableOutput(outputId = "AllelicRichness") 
+                                                    %>% withLoader(loader = "dnaspin")
+                                                ),
+                                                box(width = 12,
+                                                    h4("missing data by locus and by population:"),
                                                     br(),
                                                     plotOutput(outputId = "heatmapDiv", height = "600px") 
-                                                    #%>% withSpinner(color="#0dc5c1") 
                                                     %>% withLoader(loader = "dnaspin")
                                                 )
                                )

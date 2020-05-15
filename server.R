@@ -37,6 +37,8 @@ sr <- reactiveValues(
   samplegeno = 10000,
   thresgeno = 0.95,
   submitBoolean = FALSE,
+  richness = NULL,
+  richnessMIN = NULL,
   
   #poppr
   strata = 1,

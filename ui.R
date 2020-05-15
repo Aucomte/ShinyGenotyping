@@ -32,7 +32,7 @@ inlineCSS(css)
 sidebar <- dashboardSidebar(
   width = 180,
   sidebarMenu(
-    menuItem("Home", tabName = "menu", icon = icon("home")),
+    #menuItem("Home", tabName = "menu", icon = icon("home")),
     menuItem("Input", tabName = "inputs", icon = icon("book-open")), 
     menuItem("Statistics", tabName = "stats", icon = icon("calculator")), 
     menuItem("DAPC", tabName = "DAPC", icon = icon("calculator")),
@@ -47,7 +47,7 @@ body <- dashboardBody(
   #tags$head(tags$script(HTML(js))),
   tabItems(
     
-    #source(file.path("UI", "tab_HomeUI.R"), local = TRUE, chdir = TRUE)$value,
+    source(file.path("UI", "tab_HomeUI.R"), local = TRUE, chdir = TRUE)$value,
     
     source(file.path("UI", "tab_InputUI.R"), local = TRUE, chdir = TRUE)$value,
     
