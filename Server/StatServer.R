@@ -10,11 +10,11 @@ archiveCreation <- observeEvent(input$submitarchive, ignoreInit = TRUE, {
   colnames(sr$richness) = levels(X$pop)
   
   if(sr$ploidy_number == 2){
-    sr$stats =rbind(basic.stats(c.xvm, diploid=T, digits=2)$perloc, rbind(basic.stats(c.xvm, diploid=T, digits=2)$overall))
+    sr$stats =rbind(basic.stats(sr$Genind, diploid=T, digits=2)$perloc, rbind(basic.stats(sr$Genind, diploid=T, digits=2)$overall))
     rownames(sr$stats)[nrow(sr$stats)] = "Overall"
   }
   else{
-    sr$stats =rbind(basic.stats(c.xvm, diploid=F, digits=2)$perloc, rbind(basic.stats(c.xvm, diploid=F, digits=2)$overall))
+    sr$stats =rbind(basic.stats(sr$Genind, diploid=F, digits=2)$perloc, rbind(basic.stats(sr$Genind, diploid=F, digits=2)$overall))
     rownames(sr$stats)[nrow(sr$stats)] = "Overall"
   }
   
