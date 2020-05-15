@@ -207,10 +207,10 @@ output$downloadDiv <- downloadHandler(
 # MST
 
 output$MSTpop <- renderPlot(
-  aboot(x = sr$genind,strata=sr$strata)
+  aboot(x = sr$Genind, strata=sr$Genind@pop)
 )
 output$MSTind <- renderPlot(
-  aboot(x = sr$genind)
+  aboot(x = sr$Genind, strata=NULL)
 )
 
 output$AllelicRichness<- DT::renderDataTable({

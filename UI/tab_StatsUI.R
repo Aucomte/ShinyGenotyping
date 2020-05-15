@@ -118,10 +118,12 @@ tabItem(
                            )
                   ),
                   tabPanel("MST", value=7,
-                           plotOutput(outputId = "MSTind", height = "800px") %>% withLoader(loader = "dnaspin"),
                            conditionalPanel("input.strata!= 'None'",
+                              h4("Dendrogram with bootstrap support using any Nei distance (Populations):"),
                               plotOutput(outputId = "MSTpop", height = "800px") %>% withLoader(loader = "dnaspin")
-                           )
+                           ),
+                           h4("Dendrogram with bootstrap support using any Nei distance (Strains):"),
+                           plotOutput(outputId = "MSTind", height = "800px") %>% withLoader(loader = "dnaspin")
                   )
       )
     )
