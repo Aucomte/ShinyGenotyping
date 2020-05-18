@@ -34,9 +34,10 @@ sidebar <- dashboardSidebar(
   sidebarMenu(
     #menuItem("Home", tabName = "menu", icon = icon("home")),
     menuItem("Input", tabName = "inputs", icon = icon("book-open")), 
-    menuItem("Statistics", tabName = "stats", icon = icon("calculator")), 
-    menuItem("DAPC", tabName = "DAPC", icon = icon("calculator")),
-    menuItem("SnapClust", tabName = "SnapClust", icon = icon("calculator"))
+    menuItem("Statistics", tabName = "stats", icon = icon("calculator")),
+    menuItem("SnapClust", tabName = "SnapClust", icon = icon("calculator")),
+    menuItem("DAPC", tabName = "DAPC", icon = icon("calculator"))
+    #menuItem("Snapclust/DAPC", tabName = "Combinaison", icon = icon("calculator"))
     #menuItem("TESS3R", tabName = "TESS3R", icon = icon("eye"))
   )
 )
@@ -56,6 +57,8 @@ body <- dashboardBody(
     source(file.path("UI", "tab_DAPCUI.R"), local = TRUE, chdir = TRUE)$value,
     
     source(file.path("UI", "tab_SnapClustUI.R"), local = TRUE, chdir = TRUE)$value
+    
+    #source(file.path("UI", "tab_CombinaisonSnapDAPCUI.R"), local = TRUE, chdir = TRUE)$value
     
     #source(file.path("UI", "tab_TESS3RUI.R"), local = TRUE, chdir = TRUE)$value
     )

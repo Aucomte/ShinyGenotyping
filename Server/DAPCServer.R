@@ -201,7 +201,7 @@
     if(!is.null(input$nda)) nda <- input$nda
     
     if(!is.null(input$nclust)) nclust <- input$nclust
-    
+ 
     if(!is.null(x)){ 
       if(input$clusters == "pop"){
           out <- dapc(x, pop(x), n.pca=npca, n.da=nda, parallel=FALSE)
@@ -209,6 +209,11 @@
       else if(input$clusters == "num"){
           grp.m<-find.clusters(x, n.clust=nclust, n.pca=npca)
           out <- dapc(x, grp.m$grp, n.pca=npca, n.da=nda, parallel=FALSE)
+      }
+      else if(input$clusters == "SCclus"){
+        x.clust = getSnapclust()
+        grp.clust<-x.clust$group
+        out <- dapc(x, grp.clust, n.pca=npca, n.da=nda, parallel=FALSE)
       }
     }
     return(out)

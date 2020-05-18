@@ -99,4 +99,7 @@ shinyServer(function(input, output, session) {
   ### SNAPCLUST
   source(file.path("Server","SnapClustServer.R"), local = TRUE)$value
   
+  ### Combinaison Snapclust DAPC
+  #source(file.path("Server","CombinaisonSnapDAPC_Server.R"), local = TRUE)$value
+  
 }) # end shinyServer

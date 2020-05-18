@@ -169,7 +169,6 @@ habillageind23inv <- function(mlva12, colone, colonesup){
 #diversity 
 
 diversitybyloc <- function(c.xvm){
-
   now<-format(Sys.time(), "%b%d%H%M%S")
   dirT = tempdir()
   div<-popgenreport(c.xvm, mk.counts = T, mk.differ.stats = T, mk.allele.dist=T, mk.null.all=T, mk.allel.rich=T, mk.pdf=F, path.pgr=dirT,foldername="Allelic_Freq_RES")
@@ -180,6 +179,13 @@ diversitybyloc <- function(c.xvm){
   #output$path = paste(dirT,"/Allelic_Freq_RES .", sep="")
   print(output$path)
   return(output)
+}
+
+## combinaison DAPC et Snapclust
+
+DAPCandSnap <- function(c.xvm, xclust, npcaDC, daDC){
+  DAPCwithSNAP = dapc(c.xvm, x.clust$group, n.pca = npcaDC, n.da = daDC)
+  return(DAPCwithSNAP)
 }
 
 

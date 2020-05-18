@@ -37,7 +37,7 @@ tabItem(
          uiOutput("nda"), 
              
         radioButtons("clusters", "Number of clusters to use?",
-                     list("Choose a number of clusters"="num","Clusters are genind object pop"="pop")),
+                     list("Choose a number of clusters"="num","Clusters are genind object pop"="pop", "Clusters are SnapClust Clusters"="SCclus")),
         
         ## nclust
         conditionalPanel(condition="input.clusters == 'num'", 
