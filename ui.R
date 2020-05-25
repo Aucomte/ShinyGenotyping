@@ -58,6 +58,8 @@ body <- dashboardBody(
     
     source(file.path("UI", "tab_SnapClustUI.R"), local = TRUE, chdir = TRUE)$value
     
+    #source(file.path("UI", "tab_msnUI.R"), local = TRUE, chdir = TRUE)$value
+    
     #source(file.path("UI", "tab_CombinaisonSnapDAPCUI.R"), local = TRUE, chdir = TRUE)$value
     
     #source(file.path("UI", "tab_TESS3RUI.R"), local = TRUE, chdir = TRUE)$value

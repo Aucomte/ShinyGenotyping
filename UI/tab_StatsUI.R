@@ -11,7 +11,7 @@ tabItem(
                        actionButton(inputId="Submitpca","Submit")
       ),
       conditionalPanel(condition="input.tabselected == '4'", 
-                       h3("WARNING : works only if a population is defined for gening object. Can be long to run."),
+                       h3("WARNING : works only if a population is defined for genind object. Can be long to run."),
                        actionButton("submitarchive", "Calculate the diversity by locus")
       ),
       conditionalPanel(condition="input.tabselected == '5'", 
@@ -26,34 +26,187 @@ tabItem(
                        sliderInput(inputId = "minsamp", "the minimum number of individuals to resample for rarefaction analysis (minsample) :", min = 0, max = 15, 8, step = 1),
                        radioButtons(inputId = "missingpopp", "how should missing data be treated? (missing):", choiceNames = c("mean","zero"), choiceValues = c("mean", "zero"), selected = "mean"),
                        actionButton(inputId="Submitstat","Submit")
-      )
+      ),
+      conditionalPanel(condition="input.tabselected == '7'", 
+               selectInput("datasetMSN", 
+                           "choose dataset",
+                           choices = ""
+               ),
+             tags$h5("Status"),
+             conditionalPanel(condition="!$('html').hasClass('shiny-busy')",
+                              tagAppendChild(tags$div(class="progress"),
+                                             tagAppendChild(tags$div(class="progress-bar progress-bar-success", 
+                                                                     role="progressbar", `aria-valuenow`="100", 
+                                                                     `aria-valuemin`="0", `aria-valuemax`="100", 
+                                                                     style="width: 100%"), tags$strong("ready")))
+             ),
+             conditionalPanel(condition="$('html').hasClass('shiny-busy')",
+                              tagAppendChild(tags$div(class="progress"),
+                                             tagAppendChild(tags$div(class="progress-bar progress-bar-striped active", 
+                                                                     role="progressbar", `aria-valuenow`="100", 
+                                                                     `aria-valuemin`="0", `aria-valuemax`="100", 
+                                                                     style="width: 100%"), tags$strong("loading")))
+             ),
+             tagAppendChildren(
+               tags$div(style="display:inline-block"),
+               list(
+                 actionButton("submit", "Go!", icon("check-circle")),
+                 actionButton("update-data", "reData", icon("refresh")),
+                 actionButton("update-graph", "reGraph", icon("refresh"))
+               )
+             ),
+             HTML("
+                  <h3>
+                  Data 
+                  <button type = 'button' class = 'btn btn-secondary btn-xs' data-toggle='collapse' data-target='#dparams' aria-expanded='true' aria-controls='dparams'> 
+                  show/hide
+                  </button>
+                  </h3>
+                  "),
+             div(id = "dparams", class = "collapse in", 
+                 # h3("Data Parameters"),
+                 uiOutput("selectUI"),
+                 uiOutput("selectPops"),
+                 
+                 #checkboxInput("genclone", "Convert to genclone?", TRUE),
+                 selectInput("distance", 
+                             "Choose a distance calculation", 
+                             choices = c("Dissimilarity",
+                                         "Bruvo",
+                                         "Nei",
+                                         "Rogers",
+                                         "Edwards",
+                                         "Provesti",
+                                         "Reynolds",
+                                         "Custom")
+                 ),
+                 conditionalPanel("input.distance == 'Custom'",
+                                  uiOutput("customDist")
+                 ),
+                 conditionalPanel("input.distance == 'Bruvo'",
+                                  selectInput("bruvo_model",
+                                              "Select a model for missing data",
+                                              choices = c("Genome Addition",
+                                                          "Genome Loss",
+                                                          "Infinite",
+                                                          "Average Addition/Loss"),
+                                              selected = "Average Addition/Loss"),
+                                  textInput("replen", "SSR repeat lengths\n(comma separated or a valid R expression)", "1, 2, 3")
+                 ),
+                 conditionalPanel("input.distance != 'Bruvo'",
+                                  uiOutput("distargsUI")
+                 ),
+                 checkboxInput("reticulate", "Include reticulations?", TRUE)
+             ),
+             HTML("
+                  <h3>
+                  Display
+                  <button type = 'button' class = 'btn btn-secondary btn-xs'  data-toggle='collapse' data-target='#gparams' aria-expanded='true' aria-controls='gparams'>
+                  show/hide
+                  </a>
+                  </h3>
+                  "),
+             div(id = "gparams", class = "collapse in", 
+                 selectInput("layout", 
+                             "Choose a layout", 
+                             choices = c(
+                               "layout_nicely",
+                               "layout_randomly",
+                               "layout_with_dh",
+                               "layout_on_grid",
+                               "layout_in_circle",
+                               "layout_on_sphere",
+                               "layout_as_tree",
+                               "layout_as_star",
+                               "layout_with_drl",
+                               "layout_with_fr",
+                               "layout_with_gem",
+                               "layout_with_graphopt",
+                               "layout_with_kk",
+                               "layout_with_lgl",
+                               "layout_with_mds",
+                               "Custom")
+                 ),
+                 conditionalPanel("input.layout == 'Custom'",
+                                  uiOutput("customLayout")
+                 ),
+                 checkboxInput("pop.leg", "Population legend", TRUE),
+                 checkboxInput("size.leg", "Node size legend", TRUE),
+                 checkboxInput("scale.leg", "Scale bar", TRUE), 
+                 sliderInput("greyslide",
+                             "Grey scale",
+                             min = 0,
+                             max = 25,
+                             value = 3,
+                             step = 1
+                 ),
+                 sliderInput("nodescale",
+                             "Node scale",
+                             value = 10, 
+                             min = 1,
+                             max = 100,
+                             step = 1),
+                 numericInput("seed", 
+                              "Random Seed",
+                              "69"
+                 ),
+                 radioButtons("ind_or_mlg", "Labels", 
+                              choices = c("sample names", "MLGs"),
+                              selected = "sample names", inline = TRUE
+                 ),
+                 textInput("inds", NULL, "ALL"),
+                 checkboxInput("mlgs", "Show MLG", FALSE),
+                 radioButtons("pal", "Indicate a color palette to be used",
+                              choices=c("rainbow", 
+                                        "cm.colors", 
+                                        "topo.colors", 
+                                        "terrain.colors", 
+                                        "gray.colors",
+                                        "funky",
+                                        "spectral",
+                                        "seasun",
+                                        "azur",
+                                        "wasp",
+                                        "custom"), inline = TRUE
+                 ),
+                 conditionalPanel("input.pal == 'custom'",
+                                  textInput("custom_pal", "Custom palette/function", "'purple'")
+                 ),
+                 numericInput("cutoff",
+                              "Distance cutoff",
+                              NULL,
+                              step = 0.001
+                 ),
+                 checkboxInput("beforecut", "Keep graph position", TRUE)
+             )
+            )
     ),
     mainPanel(
       tabsetPanel(id = "tabselected",
                   tabPanel("PCA", value=3, id = "t3",
                            conditionalPanel("input.Submitpca",
-                                            fluidRow(
-                                              box(width = 6,
-                                                  plotOutput(outputId = "pcaInd", height = "600px")
-                                                  %>% withLoader(loader = "dnaspin")
-                                              ),
-                                              box(width = 6,
-                                                  plotOutput(outputId = "pcaVar", height = "600px")
-                                                  %>% withLoader(loader = "dnaspin")
-                                              ),
-                                              conditionalPanel(condition = "input.colsupDiv != 'None'",
-                                                fluidRow(
-                                                  box(width = 6,
-                                                      plotOutput(outputId = "pcahab", height = "600px")
-                                                      %>% withLoader(loader = "dnaspin")
-                                                  ),
-                                                  box(width = 6,
-                                                      plotOutput(outputId = "pcahabi", height = "600px")
-                                                      %>% withLoader(loader = "dnaspin")
-                                                  )
-                                                )
-                                              )
-                                            )
+                                fluidRow(
+                                  box(width = 6,
+                                      plotOutput(outputId = "pcaInd", height = "800px")
+                                      %>% withLoader(loader = "dnaspin")
+                                  ),
+                                  box(width = 6,
+                                      plotOutput(outputId = "pcaVar", height = "800px")
+                                      %>% withLoader(loader = "dnaspin")
+                                  )
+                                ),
+                            conditionalPanel(condition = "input.colsupDiv != 'None'",
+                                    fluidRow(
+                                      box(width = 6,
+                                          plotOutput(outputId = "pcahab", height = "800px")
+                                          %>% withLoader(loader = "dnaspin")
+                                      ),
+                                      box(width = 6,
+                                          plotOutput(outputId = "pcahabi", height = "800px")
+                                          %>% withLoader(loader = "dnaspin")
+                                      )
+                                    )
+                                  )
                            )
                   ),
                   tabPanel("Basic statistics", value=4, id = "t4",
@@ -63,7 +216,10 @@ tabItem(
                                                 box(width = 12,
                                                     h4("Diversity by locus, estimated by PopGeneReport :   "), 
                                                     br(),
-                                                    downloadButton('downloadDiv', 'Download Output archive',style="color: #fff; background-color: #ff0000; border-color: #000000; text-align: center;")
+                                                    downloadButton('downloadDiv', 'Download Output archive',style="color: #fff; background-color: #ff0000; border-color: #000000; text-align: center;")%>%
+                                                      helper(icon = "question",
+                                                             type = "markdown",
+                                                             content = "downloadDiv")
                                                 )
                                )
                              ),
@@ -101,29 +257,66 @@ tabItem(
                   ),
                   tabPanel("rarefaction curve", value=5, id = "t5",
                            conditionalPanel("input.Submitcurve",
-                                            plotOutput(outputId = "genocurve", height = "600px")  
-                                            %>% withLoader(loader = "dnaspin")
+                                  plotOutput(outputId = "genocurve", height = "600px") %>%
+                                  helper(icon = "question",
+                                          type = "markdown",
+                                          content = "genocurve") %>% withLoader(loader = "dnaspin")
+                                            
                            )
                   ),
-                  tabPanel("Poppr", value=6,
+                  tabPanel("Multilocus Genotype diversity (Poppr)", value=6,
                            conditionalPanel("input.Submitstat",
-                                            # box(width = 12,
-                                            #     plotOutput(outputId = "popprplot", height = "600px")
-                                            #       %>% withLoader(loader = "dnaspin")
-                                            # ),
-                                            box(width = 12,
-                                                DT::dataTableOutput(outputId = "popprtab")
-                                                %>% withLoader(loader = "dnaspin")
-                                            )
+                                  box(width = 12,
+                                      DT::dataTableOutput(outputId = "popprtab")%>%
+                                        helper(icon = "question",
+                                               type = "markdown",
+                                               content = "popprtab")
+                                      %>% withLoader(loader = "dnaspin")
+                                  )
                            )
                   ),
-                  tabPanel("MST", value=7,
-                           conditionalPanel("input.strata!= 'None'",
-                              h4("Dendrogram with bootstrap support using any Nei distance (Populations):"),
-                              plotOutput(outputId = "MSTpop", height = "800px") %>% withLoader(loader = "dnaspin")
+                  tabPanel("Minimum spanning networks in poppr", value=7,
+                           box(width = 12,
+                            plotOutput("plotMSN", height = '800px')
                            ),
-                           h4("Dendrogram with bootstrap support using any Nei distance (Strains):"),
-                           plotOutput(outputId = "MSTind", height = "800px") %>% withLoader(loader = "dnaspin")
+                           conditionalPanel("output.plotMSN",
+                            box(width = 12,
+                                h3("SAVE PLOT"),
+                                    radioButtons("pdf_png", label = "Choose output filetype",
+                                                 choices = c("pdf", "png"),
+                                                 selected = "pdf",
+                                                 inline = TRUE),
+                                    conditionalPanel("input.pdf_png == 'pdf'",
+                                         numericInput("pdf_plot_width", "Width (in)",
+                                                      value = 7,
+                                                      step = 0.1,
+                                                      min = 1, 
+                                                      max = 20),
+                                         numericInput("pdf_plot_height", "Height (in)",
+                                                      value = 7,
+                                                      step = 0.1,
+                                                      min = 1, 
+                                                      max = 20),
+                                         downloadButton("save_pdf", "Save PDF", class = "btn-info")
+                                    ),
+                                    conditionalPanel("input.pdf_png == 'png'",
+                                                     numericInput("png_plot_width", "Width (px)",
+                                                                  value = 400,
+                                                                  min = 1, 
+                                                                  max = 5000),
+                                                     numericInput("png_plot_height", "Height (px)",
+                                                                  value = 400,
+                                                                  min = 1, 
+                                                                  max = 5000),
+                                                     numericInput("png_res", "Resolution (dpi)",
+                                                                  value = 300,
+                                                                  min = 72,
+                                                                  max = 2000,
+                                                                  step = 1),
+                                                     downloadButton("save_png", "Save PNG", class = "btn-info")
+                                    )
+                                 )
+                               )
                   )
       )
     )

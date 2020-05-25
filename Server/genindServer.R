@@ -14,6 +14,8 @@ observeEvent(input$Submit, {
   sr$haplotype_out = haplotypes(sr$Genind)
   sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
   
+  updateSelectInput(session, "datasetMSN", choices = "genind", selected = "genind")
+  
 })
 
 # texte nombre d'haplo / nombre d'individus
