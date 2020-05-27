@@ -452,3 +452,23 @@
   #  y <- getDapc()
   #  compoplot(y, subset=sr$assign.ind, lab=input$compo.lab) #ncol= nb colonnes dans la l?gende, d?faut=4; cex.names= modifie la taille des noms sur abscisses
   #})
+  
+  ########### DAPC groups
+  
+  output$downDAPCgroups <- DT::renderDataTable(
+    DT::datatable(
+      DAPCdatagrp(sr$table, getDapc()),
+      filter = list(position = 'top', clear = TRUE, plain = FALSE), 
+      options = list(
+        scrollX = TRUE,
+        dom = 'Blfrtip',
+        lengthMenu = list( c(10, 20, -1), c(10, 20, "All")),
+        initComplete = JS(
+          "function(settings, json) {",
+          "$(this.api().table().header()).css({'background-color': '#3C3C3C', 'color': '#fff'});",
+          "}"
+        )
+      )
+    )
+  )
+  

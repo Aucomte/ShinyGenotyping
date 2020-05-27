@@ -301,6 +301,9 @@ tabItem(
                   tabPanel("Group Representation", value=26,
                            plotOutput("representationplot"),
                            plotOutput("representationHM")
+                  ),
+                  tabPanel("DAPC groups", value=27,
+                           DTOutput("downDAPCgroups")
                   )
                   
                            ) # end tabsetPanel

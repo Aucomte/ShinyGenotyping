@@ -191,6 +191,20 @@ DAPCandSnap <- function(c.xvm, xclust, npcaDC, daDC){
   return(DAPCwithSNAP)
 }
 
+## create table with dapc groups
+
+DAPCdatagrp <-function(col, dapcdata){
+  mat = matrix("NA", nrow(col), 1)
+  rownames(mat) = rownames(col)
+  mat[,1] = as.character(dapcdata$assign)
+  return(mat)
+}
+
+
+
+########################------------
+
+
 #msn
 
 get_dist <- function(indist){
