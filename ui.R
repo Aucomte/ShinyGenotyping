@@ -35,6 +35,7 @@ sidebar <- dashboardSidebar(
     menuItem("Home", tabName = "menu", icon = icon("home")),
     menuItem("Input", tabName = "inputs", icon = icon("book-open")), 
     menuItem("Statistics", tabName = "stats", icon = icon("calculator")),
+    menuItem("Find K", tabName = "FindK", icon = icon("calculator")),
     menuItem("SnapClust", tabName = "SnapClust", icon = icon("calculator")),
     menuItem("DAPC", tabName = "DAPC", icon = icon("calculator"))
   )
@@ -51,6 +52,8 @@ body <- dashboardBody(
     source(file.path("UI", "tab_InputUI.R"), local = TRUE, chdir = TRUE)$value,
     
     source(file.path("UI", "tab_StatsUI.R"), local = TRUE, chdir = TRUE)$value,
+    
+    source(file.path("UI", "tab_findNClusterUI.R"), local = TRUE, chdir = TRUE)$value,
     
     source(file.path("UI", "tab_DAPCUI.R"), local = TRUE, chdir = TRUE)$value,
     

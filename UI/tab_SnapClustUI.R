@@ -18,9 +18,6 @@ tabItem(
                          tags$hr()
         ),
         h3("SNAPCLUST PARAMETER"),
-        conditionalPanel(condition="input.tabSnapClust == '31'",
-          sliderInput("SCnclusterT", "Number of cluster tested:", min=1, max=100, value=10, step = 1)
-        ),
         conditionalPanel(condition="input.tabSnapClust != '31'",
           sliderInput("SCncluster", "Number of cluster:", min=1, max=100, value=10, step = 1)
         ),
@@ -31,14 +28,6 @@ tabItem(
     ## MAIN PANEL CONTENT
     mainPanel(
       tabsetPanel(id = "tabSnapClust", 
-         tabPanel("Find Cluster Number",value=31,
-          h3("BIC"),
-          plotOutput("BIC_FC") %>% withLoader(loader = "dnaspin"),
-          h3("AIC"),
-          plotOutput("AIC_FC") %>% withLoader(loader = "dnaspin"),
-          h3("KIC"),
-          plotOutput("KIC_FC") %>% withLoader(loader = "dnaspin")
-         ),
          tabPanel("Compoplot",value=33,
           plotOutput("compoplotSC")
          ),
