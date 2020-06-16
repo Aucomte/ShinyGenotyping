@@ -1,0 +1,19 @@
+Package: SIAT
+Type: Package
+Title: ShinyGenotyping
+Version: 1.0.0
+Date: 2019-06-19
+Authors@R: c(person("A. COMTE", "Developer", role = c("aut", "cre"),
+                     email = "aurore.comte@ird.fr"))
+Author: Aurore COMTE [aut, cre], Emmanuel Wicker [ctb]
+Maintainer: Aurore COMTE <aurore.comte@ird.fr>
+Description: Web application made whith shiny ...
+Depends: R (>= 3.4.0), shiny,shinythemes,shinyBS,stringr,shinydashboard,shinyjs,shinyWidgets,DT,shinyhelper,adegenet,poppr,plyr,FactoMiner,PopGenReport,hierfstat,pegas,colourpicker,shinyFeedback,shinyFiles,shinycssloaders,shinycustomloader,ComplexHeatmap,circlize,ggplot2,dplyr,magrittr,purrr,skimr
+License: LGPL-3 | file LICENSE
+Encoding: UTF-8
+RoxygenNote: 6.1.1
+LazyData: true
+biocViews: Software
+URL: https://github.com/Aucomte/ShinyGenotyping
+RemoteType: github
+
