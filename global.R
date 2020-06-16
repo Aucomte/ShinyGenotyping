@@ -1,41 +1,40 @@
-require(shiny)
-require(shinythemes)
-require(shinyBS)
-require(stringr)
-require(shinydashboard)
-require(shinyjs)
-require(shinyWidgets)
-require(DT)
-require(shinyhelper)
+require(shiny, quietly=TRUE, warn.conflicts = FALSE)
+require(shinythemes, quietly=TRUE, warn.conflicts = FALSE)
+require(shinyBS, quietly=TRUE, warn.conflicts = FALSE)
+require(stringr, quietly=TRUE, warn.conflicts = FALSE)
+require(shinydashboard, quietly=TRUE, warn.conflicts = FALSE)
+require(shinyjs, quietly=TRUE, warn.conflicts = FALSE)
+require(shinyWidgets, quietly=TRUE, warn.conflicts = FALSE)
+require(DT, quietly=TRUE, warn.conflicts = FALSE)
+require(shinyhelper, quietly=TRUE, warn.conflicts = FALSE)
 
-library(adegenet)
-library(poppr)
-library(plyr)
-library(FactoMineR)
-library(PopGenReport)
-library(hierfstat)
-library(pegas)
-require(colourpicker) #couleur selecteur
-require(shinyFeedback) #met des warning aux inputs
+library(adegenet, quietly=TRUE, warn.conflicts = FALSE)
+library(poppr, quietly=TRUE, warn.conflicts = FALSE)
+library(plyr, quietly=TRUE, warn.conflicts = FALSE)
+library(FactoMineR, quietly=TRUE, warn.conflicts = FALSE)
+library(PopGenReport, quietly=TRUE, warn.conflicts = FALSE)
+library(hierfstat, quietly=TRUE, warn.conflicts = FALSE)
+library(pegas, quietly=TRUE, warn.conflicts = FALSE)
+require(colourpicker, quietly=TRUE, warn.conflicts = FALSE) #couleur selecteur
+require(shinyFeedback, quietly=TRUE, warn.conflicts = FALSE) #met des warning aux inputs
 
-library(shinyFiles)
-library(shinycssloaders)
-library(shinycustomloader)
+library(shinyFiles, quietly=TRUE, warn.conflicts = FALSE)
+library(shinycssloaders, quietly=TRUE, warn.conflicts = FALSE)
+library(shinycustomloader, quietly=TRUE, warn.conflicts = FALSE)
 
-library(ComplexHeatmap)
-library(circlize)
+library(ComplexHeatmap, quietly=TRUE, warn.conflicts = FALSE)
+library(circlize, quietly=TRUE, warn.conflicts = FALSE)
 
-library(ggplot2)
-library(dplyr)
+library(ggplot2, quietly=TRUE, warn.conflicts = FALSE)
+library(dplyr, quietly=TRUE, warn.conflicts = FALSE)
 
-library(magrittr)
+library(magrittr, quietly=TRUE, warn.conflicts = FALSE)
+
+library(purrr, quietly=TRUE, warn.conflicts = FALSE)
+library(skimr, quietly=TRUE, warn.conflicts = FALSE)
 
 
 #leaflet = carte interactive
-# 
-#  install.packages(c("shiny","shinythemes","shinyBS","stringr","shinydashboard","shinyjs","shinyWidgets","DT","shinyhelper",
-#                     "adegenet","poppr","plyr","FactoMineR","PopGenReport","hierfstat","pegas","colourpicker","shinyFeedback","shinyFiles",
-#                     "shinycssloaders","shinycustomloader", "ComplexHeatmap","circlize", "ggplot2", "dplyr", "magrittr"))
 
 CreateGenindObject <- function(col.xvm, colone, colonesup, typehap, ploidy_number){
   if (colonesup != "None"){

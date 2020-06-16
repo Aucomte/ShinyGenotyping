@@ -98,5 +98,8 @@ shinyServer(function(input, output, session) {
   
   ### SNAPCLUST
   source(file.path("Server","SnapClustServer.R"), local = TRUE)$value
+  
+  ### SESSION SERVER
+  source(file.path("Server","SessionServer.R"), local = TRUE)$value
 
 }) # end shinyServer

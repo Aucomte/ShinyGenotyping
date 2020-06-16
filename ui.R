@@ -37,7 +37,8 @@ sidebar <- dashboardSidebar(
     menuItem("Statistics", tabName = "stats", icon = icon("calculator")),
     menuItem("Find K", tabName = "FindK", icon = icon("calculator")),
     menuItem("SnapClust", tabName = "SnapClust", icon = icon("calculator")),
-    menuItem("DAPC", tabName = "DAPC", icon = icon("calculator"))
+    menuItem("DAPC", tabName = "DAPC", icon = icon("calculator")),
+    menuItem("Session Info", tabName = "SI", icon = icon("book-open"))
   )
 )
 body <- dashboardBody(
@@ -57,8 +58,16 @@ body <- dashboardBody(
     
     source(file.path("UI", "tab_DAPCUI.R"), local = TRUE, chdir = TRUE)$value,
     
-    source(file.path("UI", "tab_SnapClustUI.R"), local = TRUE, chdir = TRUE)$value
+    source(file.path("UI", "tab_SnapClustUI.R"), local = TRUE, chdir = TRUE)$value,
+    
+    tabItem(
+      tabName = "SI",
+      fluidRow(
+        verbatimTextOutput("urlText1"),
+        verbatimTextOutput("urlText2")
+      )
     )
+  )
 )
 shinyUI(
   dashboardPage(title = "SninyGenotyping", skin = "yellow", header, sidebar, body)
