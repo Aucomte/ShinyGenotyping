@@ -12,8 +12,6 @@
 
 ## About this package
 
-#TODO
-
 [Shiny server hosting the application online](http://bioinfo-shiny.ird.fr:3838/ShinyGenotyping)
 
 ## Installation
@@ -38,8 +36,6 @@ runShinyGenotyping()
 ```
 
 ## Citation
-
-# TODO
 
 ## License
 

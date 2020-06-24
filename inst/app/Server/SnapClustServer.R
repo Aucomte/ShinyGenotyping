@@ -1,3 +1,10 @@
+# Get snapclust
+
+getSnapclust <- function(){
+  genind <- getData()
+  x.clust<-snapclust(genind, k=sr$SCncluster)
+  return(x.clust)
+}
 
 # group representation
 
