@@ -19,9 +19,13 @@ sr <- reactiveValues(
   metadataCSV = NULL,
   inputF = NULL,
   
+  #PCA
   outpca = NULL,
   axeschoices = "axe1 vs axe2",
   checkboxcolPCA = NULL,
+  ShowInd=FALSE,
+  ShowSup=TRUE,
+  
   
   archive = NULL,
   xvm.stat = NULL,

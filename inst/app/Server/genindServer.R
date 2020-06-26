@@ -1,6 +1,6 @@
 observeEvent(input$Submit, {
   sr$strata = input$strata
-  sr$ploidy_number = input$ploid
+  #sr$ploidy_number = input$ploid
   sr$genindtype = input$genindtype
   sr$checkboxcol = input$checkboxcol
   

@@ -38,7 +38,7 @@ tabItem(
                        checkboxGroupInput(inputId = "checkboxcol", "Loci: "),
                        selectInput(inputId = "strata", "Population : ", choice = ""),
                        radioButtons(inputId = "genindtype", "type of marker :", choiceNames = c("codominant","presence/absence"), choiceValues = c("codom","PA"), selected = "codom"),
-                       sliderInput(inputId = "ploid", "ploidy number :", min = 1, max = 6, 1, step = 1),
+                       #sliderInput(inputId = "ploid", "ploidy number :", min = 1, max = 6, 1, step = 1),
                        actionButton(inputId="Submit","Submit")
       )
     ),

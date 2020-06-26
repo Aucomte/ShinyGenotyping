@@ -12,6 +12,7 @@ library(adegenet, quietly=TRUE, warn.conflicts = FALSE)
 library(poppr, quietly=TRUE, warn.conflicts = FALSE)
 library(plyr, quietly=TRUE, warn.conflicts = FALSE)
 library(FactoMineR, quietly=TRUE, warn.conflicts = FALSE)
+library(factoextra, quietly=TRUE, warn.conflicts = FALSE)
 library(PopGenReport, quietly=TRUE, warn.conflicts = FALSE)
 library(hierfstat, quietly=TRUE, warn.conflicts = FALSE)
 library(pegas, quietly=TRUE, warn.conflicts = FALSE)
@@ -27,6 +28,8 @@ library(circlize, quietly=TRUE, warn.conflicts = FALSE)
 
 library(ggplot2, quietly=TRUE, warn.conflicts = FALSE)
 library(dplyr, quietly=TRUE, warn.conflicts = FALSE)
+library(plotly, quietly=TRUE, warn.conflicts = FALSE)
+
 
 library(magrittr, quietly=TRUE, warn.conflicts = FALSE)
 
@@ -99,71 +102,198 @@ calculPCA <- function(tab, colone, colonesup){
   return(mlva12)
 }
 #1v2
-plotind12 <- function(mlva12){ 
-  pi12 = plot.PCA(mlva12, axes=c(1,2), choix = "ind")
+plotind12 <- function(mlva12, Showsup, Showind){ 
+  if (Showsup==TRUE && Showind == TRUE){
+    labPCA = c("ind","quali")
+  }
+  else if (Showsup==TRUE && Showind == FALSE){
+    labPCA = "quali"
+  }
+  else if (Showsup==FALSE && Showind == TRUE){
+    labPCA = "ind"
+  }
+  else{
+    labPCA = "none"
+  }
+  pi12 <- plot(mlva12, axes=c(1,2), choix = "ind", label = labPCA, cex=1.5)
+  #pi12 <- pi12 + geom_text(check_overlap = TRUE, size = 18)
+  pi12 <- pi12 + theme(panel.grid.major = element_blank(),
+             plot.title=element_text(size=18, color="blue"),
+             axis.text=element_text(size=18, color="black"),
+             axis.title = element_text(size=18, color="red"))
   return(pi12)
 }
 plotvar12 <- function(mlva12){ 
-  pv12 = plot.PCA(mlva12, axes=c(1,2), choix = "var")
+  pv12 = plot(mlva12, axes=c(1,2), choix = "var", cex=1.5)
+  pv12 = pv12 + theme(panel.grid.major = element_blank(),
+                      plot.title=element_text(size=18, color="blue"),
+                      axis.text=element_text(size=18, color="black"),
+                      axis.title = element_text(size=18, color="red"))
   return(pv12)
 }
-habillageind12 <- function(mlva12, colone, colonesup){ 
+habillageind12 <- function(mlva12, colone, colonesup,Showsup, Showind){ 
+  if (Showsup==TRUE && Showind == TRUE){
+    labPCA = c("ind","quali")
+  }
+  else if (Showsup==TRUE && Showind == FALSE){
+    labPCA = "quali"
+  }
+  else if (Showsup==FALSE && Showind == TRUE){
+    labPCA = "ind"
+  }
+  else{
+    labPCA = "none"
+  } 
   l = length(colone)
   if(colonesup != "None"){
-    h12 = plot.PCA(mlva12, axes=c(1,2), choix="ind", habillage=l+1)
+    h12 = plot.PCA(mlva12, axes=c(1,2), choix="ind", label = labPCA, habillage=l+1, cex=1.5)
+    h12 = h12 + theme(panel.grid.major = element_blank(),
+                      plot.title=element_text(size=18, color="blue"),
+                      axis.text=element_text(size=18, color="black"),
+                      axis.title = element_text(size=18, color="red"),
+                      legend.title = element_text(size = 18),
+                      legend.text = element_text(size = 18))
   }
   return(h12)
 }
 habillageind12inv <- function(mlva12, colone, colonesup){ 
   l = length(colone)
   if(colonesup != "None"){
-    h12i = plot.PCA(mlva12, axes=c(1,2), choix="ind", invisible="ind", habillage=l+1)
+    h12i = plot.PCA(mlva12, axes=c(1,2), choix="ind", invisible="ind", habillage=l+1, cex=1.5)
+    h12i = h12i + theme(panel.grid.major = element_blank(),
+                        plot.title=element_text(size=18, color="blue"),
+                        axis.text=element_text(size=18, color="black"),
+                        axis.title = element_text(size=18, color="red"))
   }
   return(h12i)
 }
 #1v3
-plotind13 <- function(mlva12){ 
-  pi13 = plot.PCA(mlva12, axes=c(1,3), choix = "ind")
+plotind13 <- function(mlva12, Showsup, Showind){
+  if (Showsup==TRUE && Showind == TRUE){
+    labPCA = c("ind","quali")
+  }
+  else if (Showsup==TRUE && Showind == FALSE){
+    labPCA = "quali"
+  }
+  else if (Showsup==FALSE && Showind == TRUE){
+    labPCA = "ind"
+  }
+  else{
+    labPCA = "none"
+  }
+  pi13 = plot.PCA(mlva12, axes=c(1,3), choix = "ind", cex=1.5, label = labPCA)
+  pi13 = pi13 + theme(panel.grid.major = element_blank(),
+                      plot.title=element_text(size=18, color="blue"),
+                      axis.text=element_text(size=18, color="black"),
+                      axis.title = element_text(size=18, color="red"))
   return(pi13)
 }
 plotvar13 <- function(mlva12){ 
-  pv13 = plot.PCA(mlva12, axes=c(1,3), choix = "var")
+  pv13 = plot.PCA(mlva12, axes=c(1,3), choix = "var", cex=1.5)
+  pv13 = pv13 + theme(panel.grid.major = element_blank(),
+                      plot.title=element_text(size=18, color="blue"),
+                      axis.text=element_text(size=18, color="black"),
+                      axis.title = element_text(size=18, color="red"))
   return(pv13)
 }
-habillageind13 <- function(mlva12, colone, colonesup){ 
+habillageind13 <- function(mlva12, colone, colonesup,Showsup, Showind){ 
+  if (Showsup==TRUE && Showind == TRUE){
+    labPCA = c("ind","quali")
+  }
+  else if (Showsup==TRUE && Showind == FALSE){
+    labPCA = "quali"
+  }
+  else if (Showsup==FALSE && Showind == TRUE){
+    labPCA = "ind"
+  }
+  else{
+    labPCA = "none"
+  } 
   l = length(colone)
   if(colonesup != "None"){
-    h13 = plot.PCA(mlva12, axes=c(1,3), choix="ind", habillage=l+1)
+    h13 = plot.PCA(mlva12, axes=c(1,3), choix="ind", habillage=l+1, cex=1.5, label = labPCA)
+    h13 = h13 + theme(panel.grid.major = element_blank(),
+                        plot.title=element_text(size=18, color="blue"),
+                        axis.text=element_text(size=18, color="black"),
+                        axis.title = element_text(size=18, color="red"),
+                        legend.title = element_text(size = 18),
+                        legend.text = element_text(size = 18))
   }
   return(h13)
 }
 habillageind13inv <- function(mlva12, colone, colonesup){ 
   l = length(colone)
   if(colonesup != "None"){
-    h13i = plot.PCA(mlva12, axes=c(1,3), choix="ind", invisible="ind", habillage=l+1)
+    h13i = plot.PCA(mlva12, axes=c(1,3), choix="ind", invisible="ind", habillage=l+1, cex=1.5)
+    h13i = h13i + theme(panel.grid.major = element_blank(),
+                      plot.title=element_text(size=18, color="blue"),
+                      axis.text=element_text(size=18, color="black"),
+                      axis.title = element_text(size=18, color="red"))
   }
   return(h13i)
 }
 #2v3
-plotind23 <- function(mlva12){ 
-  pi23 = plot.PCA(mlva12, axes=c(2,3), choix = "ind")
+plotind23 <- function(mlva12, Showsup, Showind){ 
+  if (Showsup==TRUE && Showind == TRUE){
+    labPCA = c("ind","quali")
+  }
+  else if (Showsup==TRUE && Showind == FALSE){
+    labPCA = "quali"
+  }
+  else if (Showsup==FALSE && Showind == TRUE){
+    labPCA = "ind"
+  }
+  else{
+    labPCA = "none"
+  }
+  pi23 = plot.PCA(mlva12, axes=c(2,3), choix = "ind", cex=1.5, label = labPCA)
+  pi23 = pi23 + theme(panel.grid.major = element_blank(),
+                      plot.title=element_text(size=18, color="blue"),
+                      axis.text=element_text(size=18, color="black"),
+                      axis.title = element_text(size=18, color="red"))
   return(pi23)
 }
 plotvar23 <- function(mlva12){ 
-  pv23 = plot.PCA(mlva12, axes=c(2,3), choix = "var")
+  pv23 = plot.PCA(mlva12, axes=c(2,3), choix = "var", cex=1.5)
+  pv23 = pv23 + theme(panel.grid.major = element_blank(),
+                      plot.title=element_text(size=18, color="blue"),
+                      axis.text=element_text(size=18, color="black"),
+                      axis.title = element_text(size=18, color="red"))
   return(pv23)
 }
-habillageind23 <- function(mlva12, colone, colonesup){ 
+habillageind23 <- function(mlva12, colone, colonesup,Showsup, Showind){ 
+  if (Showsup==TRUE && Showind == TRUE){
+    labPCA = c("ind","quali")
+  }
+  else if (Showsup==TRUE && Showind == FALSE){
+    labPCA = "quali"
+  }
+  else if (Showsup==FALSE && Showind == TRUE){
+    labPCA = "ind"
+  }
+  else{
+    labPCA = "none"
+  }
   l = length(colone)
   if(colonesup != "None"){
-    h23 = plot.PCA(mlva12, axes=c(2,3), choix="ind", habillage=l+1)
+    h23 = plot.PCA(mlva12, axes=c(2,3), choix="ind", habillage=l+1, cex=1.5, label = labPCA)
+    h23 = h23 + theme(panel.grid.major = element_blank(),
+                        plot.title=element_text(size=18, color="blue"),
+                        axis.text=element_text(size=18, color="black"),
+                        axis.title = element_text(size=18, color="red"),
+                        legend.title = element_text(size = 18),
+                        legend.text = element_text(size = 18))
   }
   return(h23)
 }
 habillageind23inv <- function(mlva12, colone, colonesup){ 
   l = length(colone)
   if(colonesup != "None"){
-    h23i = plot.PCA(mlva12, axes=c(2,3), choix="ind", invisible="ind", habillage=l+1)
+    h23i = plot.PCA(mlva12, axes=c(2,3), choix="ind", invisible="ind", habillage=l+1,cex=1.5)
+    h23i = h23i + theme(panel.grid.major = element_blank(),
+                      plot.title=element_text(size=18, color="blue"),
+                      axis.text=element_text(size=18, color="black"),
+                      axis.title = element_text(size=18, color="red"))
   }
   return(h23i)
 }

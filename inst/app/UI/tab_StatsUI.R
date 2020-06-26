@@ -8,6 +8,8 @@ tabItem(
                        checkboxGroupInput(inputId = "checkboxcolPCA", "variables: "),
                        selectInput(inputId = "colsupDiv", "suplementary explicative column : ", choice = ""),
                        selectInput(inputId = "axeschoices", "axes", choice=c("axe1 vs axe2", "axe1 vs axe3", "axe2 vs axe3")),
+                       checkboxInput(inputId ="ShowInd", "Show individuals on graph", value = FALSE),
+                       checkboxInput(inputId ="ShowSup", "Show suplementary variable on graph", value = TRUE),
                        actionButton(inputId="Submitpca","Submit")
       ),
       conditionalPanel(condition="input.tabselected == '4'", 
@@ -186,27 +188,31 @@ tabItem(
                   tabPanel("PCA", value=3, id = "t3",
                            conditionalPanel("input.Submitpca",
                                 fluidRow(
-                                  box(width = 6,
+                                  box(width = 12,
                                       plotOutput(outputId = "pcaInd", height = "800px")
-                                      %>% withLoader(loader = "dnaspin")
-                                  ),
-                                  box(width = 6,
-                                      plotOutput(outputId = "pcaVar", height = "800px")
                                       %>% withLoader(loader = "dnaspin")
                                   )
                                 ),
+                                  fluidRow(
+                                    box(width = 12,
+                                      plotOutput(outputId = "pcaVar", height = "800px")
+                                      %>% withLoader(loader = "dnaspin")
+                                    )
+                                  ),
                             conditionalPanel(condition = "input.colsupDiv != 'None'",
                                     fluidRow(
-                                      box(width = 6,
+                                      box(width = 12,
                                           plotOutput(outputId = "pcahab", height = "800px")
                                           %>% withLoader(loader = "dnaspin")
+                                        )
                                       ),
-                                      box(width = 6,
-                                          plotOutput(outputId = "pcahabi", height = "800px")
-                                          %>% withLoader(loader = "dnaspin")
+                                      fluidRow(
+                                        box(width = 12,
+                                            plotOutput(outputId = "pcahabi", height = "800px")
+                                            %>% withLoader(loader = "dnaspin")
                                       )
                                     )
-                                  )
+                               )
                            )
                   ),
                   tabPanel("Basic statistics", value=4, id = "t4",
