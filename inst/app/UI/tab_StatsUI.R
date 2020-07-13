@@ -17,8 +17,8 @@ tabItem(
                        actionButton("submitarchive", "Calculate the diversity by locus")
       ),
       conditionalPanel(condition="input.tabselected == '5'", 
-                       radioButtons(inputId = "drop", "non prise en compte des loci monomorphes :", choiceNames =  c("yes","no"), choiceValues = c("T","F"), selected = "F"),
-                       radioButtons(inputId = "dropna", "non prise en compte des données manquantes :", choiceNames = c("yes","no"), choiceValues = c("T","F"), selected = "F"),
+                       radioButtons(inputId = "drop", "monomorphic loci will be removed before analysis :", choiceNames =  c("yes","no"), choiceValues = c("T","F"), selected = "F"),
+                       radioButtons(inputId = "dropna", "NAs will be ignored when determining if a locus is monomorphic :", choiceNames = c("yes","no"), choiceValues = c("T","F"), selected = "F"),
                        sliderInput(inputId = "thresgeno", "threshold :", min = 0, max = 1, 0.95, step = 0.05),
                        sliderInput(inputId = "samplegeno", "number of times loci will be resampled without replacement :", min = 0, max = 20000, 10000, step = 100),
                        actionButton(inputId="Submitcurve","Submit")
@@ -222,7 +222,7 @@ tabItem(
                                                 box(width = 12,
                                                     h4("Diversity by locus, estimated by PopGeneReport :   "), 
                                                     br(),
-                                                    downloadButton('downloadDiv', 'Download Output archive',style="color: #fff; background-color: #ff0000; border-color: #000000; text-align: center;")%>%
+                                                    downloadButton('downloadDiv', 'Download Output archive',style="color: #fff; background-color: #ff0000; border-color: #000000; text-align: center;") %>%
                                                       helper(icon = "question",
                                                              type = "markdown",
                                                              content = "downloadDiv")
@@ -263,21 +263,20 @@ tabItem(
                   ),
                   tabPanel("rarefaction curve", value=5, id = "t5",
                            conditionalPanel("input.Submitcurve",
-                                  plotOutput(outputId = "genocurve", height = "600px") %>%
+                                  plotOutput(outputId = "genocurve", height = "600px") %>% withLoader(loader = "dnaspin") %>%
                                   helper(icon = "question",
                                           type = "markdown",
-                                          content = "genocurve") %>% withLoader(loader = "dnaspin")
+                                          content = "genocurve")
                                             
                            )
                   ),
                   tabPanel("Multilocus Genotype diversity (Poppr)", value=6,
                            conditionalPanel("input.Submitstat",
                                   box(width = 12,
-                                      DT::dataTableOutput(outputId = "popprtab")%>%
+                                      DT::dataTableOutput(outputId = "popprtab") %>% withLoader(loader = "dnaspin") %>%
                                         helper(icon = "question",
                                                type = "markdown",
                                                content = "popprtab")
-                                      %>% withLoader(loader = "dnaspin")
                                   )
                            )
                   ),
