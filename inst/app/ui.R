@@ -27,7 +27,7 @@ css <- "
 
 header <- dashboardHeader(title = "ShinyGenotyping", titleWidth = 380)
 useShinyjs()
-extendShinyjs(text = jscode)
+extendShinyjs(text = jscode, functions = c("pageCol"))
 inlineCSS(css)
 sidebar <- dashboardSidebar(
   width = 180,

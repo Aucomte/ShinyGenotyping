@@ -75,10 +75,10 @@ sr <- reactiveValues(
 
 shinyServer(function(input, output, session) {
   #disabled tab on load:
-  js$disableTab("t2")
-  js$disableTab("t3")
-  js$disableTab("t4")
-  js$disableTab("t5")
+  #js$disableTab("t2")
+  #js$disableTab("t3")
+  #js$disableTab("t4")
+  #js$disableTab("t5")
   
   observe_helpers() # active help icon
   
