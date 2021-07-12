@@ -35,12 +35,12 @@ getInput <- reactive({
     ##ON nomme les colonnes
     names(genemapperCSV2)<-c("Strain", "Locus", "Size")
 
-    jeu <- matrix(as.vector(t(as.matrix(genemapperCSV2[,"Size"]))),nrow=nlevels(genemapperCSV2$Strain),ncol=nlevels(genemapperCSV2$Locus),byrow=TRUE)
-    rownames(jeu) <- levels(genemapperCSV2$Strain)
-    nom.marqueur <- rep(levels(genemapperCSV2$Locus),each=1)
+    jeu <- matrix(as.vector(t(as.matrix(genemapperCSV2[,"Size"]))),nrow=nlevels(as.factor(genemapperCSV2$Strain)),ncol=nlevels(as.factor(genemapperCSV2$Locus)),byrow=TRUE)
+    rownames(jeu) <- levels(as.factor(genemapperCSV2$Strain))
+    nom.marqueur <- rep(levels(as.factor(genemapperCSV2$Locus)),each=1)
     
     jeu2<-data.frame(jeu) # Commandes à utiliser uniquement si on veut exporter le tableau avec les noms de locus. POur la suite par contre, il vaut mieux avoir un tableau sans tête de colonne.
-    names(jeu2)<-levels(genemapperCSV2$Locus)
+    names(jeu2)<-levels(as.factor(genemapperCSV2$Locus))
 
     ##POr mettre la colonne "Strain" en premier:
     Strain<-rownames(jeu2)

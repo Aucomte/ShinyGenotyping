@@ -37,6 +37,11 @@ tabItem(
                        h3("Create genotype object"),
                        checkboxGroupInput(inputId = "checkboxcol", "Loci: "),
                        selectInput(inputId = "strata", "Population : ", choice = ""),
+                       p("Some analysis will not be possible if some populations are not sufficiently represented"),
+                       radioButtons(inputId = "genindfilterbypop", "Filter populations with few individuals :", choiceNames = c("yes","no"), choiceValues = c("yes","no"), selected = "no"),
+                       conditionalPanel(condition="input.genindfilterbypop=='yes'",
+                              sliderInput("filtergenindpop","minimal population size :", min = 1, max = 15, 5, step = 1)
+                       ),
                        radioButtons(inputId = "genindtype", "type of marker :", choiceNames = c("codominant","presence/absence"), choiceValues = c("codom","PA"), selected = "codom"),
                        #sliderInput(inputId = "ploid", "ploidy number :", min = 1, max = 6, 1, step = 1),
                        actionButton(inputId="Submit","Submit")

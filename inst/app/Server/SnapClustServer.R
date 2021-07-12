@@ -1,5 +1,9 @@
 # Get snapclust
 
+observeEvent(input$SCncluster, ignoreInit = TRUE, {
+  sr$SCncluster = input$SCncluster
+})
+
 getSnapclust <- function(){
   genind <- getData()
   x.clust<-snapclust(genind, k=sr$SCncluster)

@@ -3,6 +3,7 @@ observeEvent(input$Submit, {
   #sr$ploidy_number = input$ploid
   sr$genindtype = input$genindtype
   sr$checkboxcol = input$checkboxcol
+  sr$genindfilterbypop = input$genindfilterbypop
   
   # update PCA to adapt the already selected checkbox
   #updateSelectInput(session, "colsupDiv", choices = csr$colnames, selected=sr$strata)
@@ -13,6 +14,23 @@ observeEvent(input$Submit, {
   sr$Genind <- CreateGenindObject(sr$table, sr$checkboxcol, sr$strata, sr$genindtype, sr$ploidy_number)
   sr$haplotype_out = haplotypes(sr$Genind)
   sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
+  
+  sr$filtergenindpop = input$filtergenindpop
+  
+  if (sr$genindfilterbypop == "yes"){
+    gi = sr$Genind
+    poptoremove = c()
+    for(i in levels(gi@pop)) {
+      if(length(gi@pop[sr$Genind@pop == i]) <= sr$filtergenindpop){
+        poptoremove <- c(poptoremove, i)
+      }
+    }
+    gl = gi2gl(sr$Genind)
+    gl2 = gl.drop.pop(gl, pop.list = poptoremove)
+    sr$Genind = gl2gi(gl2)
+    sr$haplotype_out = haplotypes(sr$Genind)
+    sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
+  }
   
   updateSelectInput(session, "datasetMSN", choices = "genind", selected = "genind")
   

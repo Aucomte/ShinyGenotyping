@@ -30,6 +30,7 @@ tabItem(
   mainPanel(
   tabsetPanel(id = "FindKtab",
               tabPanel("Snapclust", value=121,
+                  p("The optimal number of cluster is les minimum (the elbow) of the curve."),
                   plotOutput("dapcBIC") %>% withLoader(loader = "dnaspin"),
                   plotOutput("dapcAIC") %>% withLoader(loader = "dnaspin"),
                   plotOutput("dapcKIC") %>% withLoader(loader = "dnaspin")

@@ -18,6 +18,8 @@ sr <- reactiveValues(
   repCSV = NULL,
   metadataCSV = NULL,
   inputF = NULL,
+  filtergenindpop = NULL,
+  genindfilterbypop = NULL,
   
   #PCA
   outpca = NULL,

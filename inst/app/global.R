@@ -36,6 +36,7 @@ library(magrittr, quietly=TRUE, warn.conflicts = FALSE)
 library(purrr, quietly=TRUE, warn.conflicts = FALSE)
 library(skimr, quietly=TRUE, warn.conflicts = FALSE)
 
+library(dartR, quietly=TRUE, warn.conflicts = FALSE)
 
 #leaflet = carte interactive
 

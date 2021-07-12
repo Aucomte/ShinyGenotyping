@@ -6,7 +6,7 @@ tabItem(
       conditionalPanel(condition="input.tabselected == '3'", 
                        h3("PCA"),
                        checkboxGroupInput(inputId = "checkboxcolPCA", "variables: "),
-                       selectInput(inputId = "colsupDiv", "suplementary explicative column : ", choice = ""),
+                       selectInput(inputId = "colsupDiv", "Supplementary variable to color the individual : ", choice = ""),
                        selectInput(inputId = "axeschoices", "axes", choice=c("axe1 vs axe2", "axe1 vs axe3", "axe2 vs axe3")),
                        checkboxInput(inputId ="ShowInd", "Show individuals on graph", value = FALSE),
                        checkboxInput(inputId ="ShowSup", "Show suplementary variable on graph", value = TRUE),
@@ -25,7 +25,11 @@ tabItem(
       ),
       conditionalPanel(condition="input.tabselected == '6'", 
                        sliderInput(inputId = "samplepoppr", "number of permutations desired to obtain p-values (sample) :", min = 0, max = 10000, 1000, step = 50),
-                       sliderInput(inputId = "minsamp", "the minimum number of individuals to resample for rarefaction analysis (minsample) :", min = 0, max = 15, 8, step = 1),
+                       sliderInput(inputId = "minsamp", "the minimum number of individuals to resample for rarefaction analysis (minsample) :", min = 0, max = 15, 8, step = 1)%>%
+                         helper(icon = "question",
+                                type = "markdown",
+                                content = "minsamp")
+                       ,
                        radioButtons(inputId = "missingpopp", "how should missing data be treated? (missing):", choiceNames = c("mean","zero"), choiceValues = c("mean", "zero"), selected = "mean"),
                        actionButton(inputId="Submitstat","Submit")
       ),
@@ -222,10 +226,7 @@ tabItem(
                                                 box(width = 12,
                                                     h4("Diversity by locus, estimated by PopGeneReport :   "), 
                                                     br(),
-                                                    downloadButton('downloadDiv', 'Download Output archive',style="color: #fff; background-color: #ff0000; border-color: #000000; text-align: center;") %>%
-                                                      helper(icon = "question",
-                                                             type = "markdown",
-                                                             content = "downloadDiv")
+                                                    downloadButton('downloadDiv', 'Download Output archive',style="color: #fff; background-color: #ff0000; border-color: #000000; text-align: center;")
                                                 )
                                )
                              ),
@@ -237,11 +238,7 @@ tabItem(
                                                     %>% withLoader(loader = "dnaspin")
                                                  ),
                                                 box(width = 12,
-                                                    h4("Basic statistics per locus (hierfstat) :")%>%
-                                                      helper(icon = "question",
-                                                             type = "markdown",
-                                                             content = "genostatbasePerLoc"),
-                                                    DT::dataTableOutput(outputId = "genostatbasePerLoc") 
+                                                    h4("Basic statistics per locus (hierfstat) :")
                                                     %>% withLoader(loader = "dnaspin")
                                                 ),
                                                 box(width = 12,
@@ -263,66 +260,59 @@ tabItem(
                   ),
                   tabPanel("rarefaction curve", value=5, id = "t5",
                            conditionalPanel("input.Submitcurve",
-                                  plotOutput(outputId = "genocurve", height = "600px") %>% withLoader(loader = "dnaspin") %>%
-                                  helper(icon = "question",
-                                          type = "markdown",
-                                          content = "genocurve")
-                                            
+                                  plotOutput(outputId = "genocurve", height = "600px") %>% withLoader(loader = "dnaspin")
                            )
                   ),
                   tabPanel("Multilocus Genotype diversity (Poppr)", value=6,
                            conditionalPanel("input.Submitstat",
                                   box(width = 12,
-                                      DT::dataTableOutput(outputId = "popprtab") %>% withLoader(loader = "dnaspin") %>%
-                                        helper(icon = "question",
-                                               type = "markdown",
-                                               content = "popprtab")
+                                      DT::dataTableOutput(outputId = "popprtab") %>% withLoader(loader = "dnaspin")
                                   )
                            )
-                  ),
-                  tabPanel("Minimum spanning networks in poppr", value=7,
-                           box(width = 12,
-                            plotOutput("plotMSN", height = '800px')
-                           ),
-                           conditionalPanel("output.plotMSN",
-                            box(width = 12,
-                                h3("SAVE PLOT"),
-                                    radioButtons("pdf_png", label = "Choose output filetype",
-                                                 choices = c("pdf", "png"),
-                                                 selected = "pdf",
-                                                 inline = TRUE),
-                                    conditionalPanel("input.pdf_png == 'pdf'",
-                                         numericInput("pdf_plot_width", "Width (in)",
-                                                      value = 7,
-                                                      step = 0.1,
-                                                      min = 1, 
-                                                      max = 20),
-                                         numericInput("pdf_plot_height", "Height (in)",
-                                                      value = 7,
-                                                      step = 0.1,
-                                                      min = 1, 
-                                                      max = 20),
-                                         downloadButton("save_pdf", "Save PDF", class = "btn-info")
-                                    ),
-                                    conditionalPanel("input.pdf_png == 'png'",
-                                                     numericInput("png_plot_width", "Width (px)",
-                                                                  value = 400,
-                                                                  min = 1, 
-                                                                  max = 5000),
-                                                     numericInput("png_plot_height", "Height (px)",
-                                                                  value = 400,
-                                                                  min = 1, 
-                                                                  max = 5000),
-                                                     numericInput("png_res", "Resolution (dpi)",
-                                                                  value = 300,
-                                                                  min = 72,
-                                                                  max = 2000,
-                                                                  step = 1),
-                                                     downloadButton("save_png", "Save PNG", class = "btn-info")
-                                    )
-                                 )
-                               )
                   )
+#                  tabPanel("Minimum spanning networks in poppr", value=7,
+#                           box(width = 12,
+#                            plotOutput("plotMSN", height = '800px')
+#                           ),
+#                           conditionalPanel("output.plotMSN",
+#                            box(width = 12,
+#                                h3("SAVE PLOT"),
+#                                    radioButtons("pdf_png", label = "Choose output filetype",
+#                                                 choices = c("pdf", "png"),
+#                                                 selected = "pdf",
+#                                                 inline = TRUE),
+#                                    conditionalPanel("input.pdf_png == 'pdf'",
+#                                         numericInput("pdf_plot_width", "Width (in)",
+#                                                      value = 7,
+#                                                      step = 0.1,
+#                                                      min = 1, 
+#                                                      max = 20),
+#                                         numericInput("pdf_plot_height", "Height (in)",
+#                                                      value = 7,
+#                                                      step = 0.1,
+#                                                      min = 1, 
+#                                                      max = 20),
+#                                         downloadButton("save_pdf", "Save PDF", class = "btn-info")
+#                                    ),
+#                                    conditionalPanel("input.pdf_png == 'png'",
+#                                                     numericInput("png_plot_width", "Width (px)",
+#                                                                  value = 400,
+#                                                                  min = 1, 
+#                                                                  max = 5000),
+#                                                     numericInput("png_plot_height", "Height (px)",
+#                                                                  value = 400,
+#                                                                  min = 1, 
+#                                                                  max = 5000),
+#                                                     numericInput("png_res", "Resolution (dpi)",
+#                                                                  value = 300,
+#                                                                  min = 72,
+#                                                                  max = 2000,
+#                                                                  step = 1),
+#                                                     downloadButton("save_png", "Save PNG", class = "btn-info")
+#                                    )
+#                                 )
+#                               )
+#                  )
       )
     )
   )

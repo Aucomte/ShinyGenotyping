@@ -245,42 +245,42 @@ tabItem(
                              If desired, the user can choose to 'Select and describe features above the threshold'")
                            ),
                   
-                  tabPanel("Cross-Validation", value=25,  
-                           plotOutput("xvalPlot"),
-                           h3("Mean success by number of PCs"),
-                           verbatimTextOutput("xvalResults3"),
-                           h3("Number of PCs with highest mean"),
-                           verbatimTextOutput("xvalResults4"),
-                           h3("RMSE by number of PCs"),
-                           verbatimTextOutput("xvalResults5"),
-                           h3("Number of PCs with lowest RMSE"),
-                           verbatimTextOutput("xvalResults6"),
-                           h3("Cross-validation results"),
-                           verbatimTextOutput("xvalResults1"),
-                           h3("Median and CI for random chance"),
-                           verbatimTextOutput("xvalResults2"),
-                           h3(br(),"Cross-validation"),
-                           p("When the 'Perform cross-validation?' box is ticked, this optimisation procedure will be carried
-           out on the Cross-validation page."),
-                           p("Cross-validation is an optimisation procedure that is used in the context of DAPC to identify the number of principal components
-           that gives rise to the model with the highest predictive capacity. In cross-validation for DAPC, the data is divided into a training
-           set and a validation set (by default, comprising 90% and 10% of the data, respectively). The analysis is run on the training set with
-           variable numbers of PCs retained, and the degree to which the analysis is able to accurately predict the group membership of
-           excluded individuals (those in the validation set) is used to select the optimal number of PCs to retain. This procedure is replicated
-           with different random sub-samples a number of times specified by a slider on the side panel. In  the interest of computational time,
-           only 3 replicates are performed by default, though more replicates are recommended to achieve greater optimisation.
-           Success is calculated either by group (the default) or measured as overall success."),
-                           
-                           p("A scatterplot of the results is displayed, showing the number of PCs retained on the x-axis and
-           success on the y-axis. Individual replicates appear as dots, and the density of points is displayed
-           in blue."),
-                           p("Ideally, the data should fall in an arc, indicating an optimal point at its maximum where
-           the number of PCs retained leads to better predictive success than numbers of PCs either
-           above or below."),
-                           p("Below the plot, a variety of summary statistics are provided.
-           Ultimately, it is the number of PCs associated with the lowest RMSE (root mean squared error,
-           see Glossary) which is selected if 'Use suggested number of PCA components?' is ticked.",br(),br(),br())
-                  ),
+#                  tabPanel("Cross-Validation", value=25,  
+#                           plotOutput("xvalPlot"),
+#                           h3("Mean success by number of PCs"),
+#                           verbatimTextOutput("xvalResults3"),
+#                           h3("Number of PCs with highest mean"),
+#                           verbatimTextOutput("xvalResults4"),
+#                           h3("RMSE by number of PCs"),
+#                           verbatimTextOutput("xvalResults5"),
+#                           h3("Number of PCs with lowest RMSE"),
+#                           verbatimTextOutput("xvalResults6"),
+#                           h3("Cross-validation results"),
+#                           verbatimTextOutput("xvalResults1"),
+#                           h3("Median and CI for random chance"),
+#                           verbatimTextOutput("xvalResults2"),
+#                           h3(br(),"Cross-validation"),
+#                           p("When the 'Perform cross-validation?' box is ticked, this optimisation procedure will be carried
+#           out on the Cross-validation page."),
+#                           p("Cross-validation is an optimisation procedure that is used in the context of DAPC to identify the number of principal components
+#           that gives rise to the model with the highest predictive capacity. In cross-validation for DAPC, the data is divided into a training
+#           set and a validation set (by default, comprising 90% and 10% of the data, respectively). The analysis is run on the training set with
+#           variable numbers of PCs retained, and the degree to which the analysis is able to accurately predict the group membership of
+#           excluded individuals (those in the validation set) is used to select the optimal number of PCs to retain. This procedure is replicated
+#           with different random sub-samples a number of times specified by a slider on the side panel. In  the interest of computational time,
+#           only 3 replicates are performed by default, though more replicates are recommended to achieve greater optimisation.
+#           Success is calculated either by group (the default) or measured as overall success."),
+#                           
+#                           p("A scatterplot of the results is displayed, showing the number of PCs retained on the x-axis and
+#           success on the y-axis. Individual replicates appear as dots, and the density of points is displayed
+#           in blue."),
+#                           p("Ideally, the data should fall in an arc, indicating an optimal point at its maximum where
+#           the number of PCs retained leads to better predictive success than numbers of PCs either
+#           above or below."),
+#                           p("Below the plot, a variety of summary statistics are provided.
+#           Ultimately, it is the number of PCs associated with the lowest RMSE (root mean squared error,
+#           see Glossary) which is selected if 'Use suggested number of PCA components?' is ticked.",br(),br(),br())
+#                  ),
                   tabPanel("Group Representation", value=26,
                            plotOutput("representationplot"),
                            plotOutput("representationHM")
