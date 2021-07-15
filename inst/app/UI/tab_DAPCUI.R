@@ -6,21 +6,21 @@ tabItem(
     ## SIDE PANEL CONTENT
     sidebarPanel(
       
-      ## define the type of input
-      radioButtons("datatype", "What data source to use?",
-                   list("Input"="expl","Input file"="file")),
-      
-      ## choice of dataset if source is an example
-      conditionalPanel(condition = "input.datatype=='expl'",
-                       selectInput("dataset", "The dataset", choices="Input")
-      ),
-      
-      ## choice of dataset if source is a file
-      conditionalPanel(condition = "input.datatype=='file'",
-                       fileInput('datafile', 'Choose input file',
-                                 accept=c('gtx/gen/dat/GTX/GEN/DAT/RData/Rdata/Rda/rda', 'GENETIX/genepop/Fstat/R data')),
-                       tags$hr()
-      ),
+    # ## define the type of input
+    # radioButtons("datatype", "What data source to use?",
+    #              list("Input"="expl","Input file"="file")),
+    # 
+    # ## choice of dataset if source is an example
+    # conditionalPanel(condition = "input.datatype=='expl'",
+    #                  selectInput("dataset", "The dataset", choices="Input")
+    # ),
+    #   
+    #   ## choice of dataset if source is a file
+    #   conditionalPanel(condition = "input.datatype=='file'",
+    #                    fileInput('datafile', 'Choose input file',
+    #                              accept=c('gtx/gen/dat/GTX/GEN/DAT/RData/Rdata/Rda/rda', 'GENETIX/genepop/Fstat/R data')),
+    #                    tags$hr()
+    #   ),
       
       sliderInput("npca", "Number of PCA axes retained:", min=1, max=1000, value=10),
       

@@ -7,7 +7,7 @@ tabItem(
 
          ## CITATION ##
          
-         p("The DAPC Server aims to provide a user-friendly interactive application of some of the functions contained in several packages"),
+         p("The DAPC Server is designed for the analysis of multilocus genotyping data, specifically micro/minisatellite data and Multilocus VNTR analysis (MLVA), on haploid microorganisms (bacteria and fungi)"),
         
          h3(br(),"Citations"),
          

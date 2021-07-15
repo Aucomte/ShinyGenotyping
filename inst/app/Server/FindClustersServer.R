@@ -15,7 +15,7 @@ observeEvent(input$dapcnclusterT,{
 })
 
 output$dapcBIC <- renderPlot({
-  genind <- getData()
+  genind <- sr$Genind
   x.bic<-snapclust.choose.k(sr$dapcnclusterT,genind,IC="BIC")
   plot(x.bic, type="b", cex=2, xlab="k",ylab="BIC")
   points(which.min(x.bic), min(x.bic), col="blue", pch=20, cex=2)
@@ -23,7 +23,7 @@ output$dapcBIC <- renderPlot({
 })
 
 output$dapcAIC <- renderPlot({
-  genind <- getData()
+  genind <- sr$Genind
   x.bic<-snapclust.choose.k(sr$dapcnclusterT,genind,IC="AIC")
   plot(x.bic, type="b", cex=2, xlab="k",ylab="AIC")
   points(which.min(x.bic), min(x.bic), col="blue", pch=20, cex=2)
@@ -31,7 +31,7 @@ output$dapcAIC <- renderPlot({
 })
 
 output$dapcKIC <- renderPlot({
-  genind <- getData()
+  genind <- sr$Genind
   x.bic<-snapclust.choose.k(sr$dapcnclusterT,genind,IC="KIC")
   plot(x.bic, type="b", cex=2, xlab="k",ylab="KIC")
   points(which.min(x.bic), min(x.bic), col="blue", pch=20, cex=2)

@@ -20,6 +20,7 @@ sr <- reactiveValues(
   inputF = NULL,
   filtergenindpop = NULL,
   genindfilterbypop = NULL,
+  poptoremove = NULL,
   
   #PCA
   outpca = NULL,

@@ -21,6 +21,9 @@ observeEvent(input$GroupComparison,{
 output$GroupPlot <- renderPlot({
   SC <- getSnapclust()
   genind <- getData()
+  print(sr$GroupComparison)
+  print(genind$other)
+  print(genind$pop)
   table.value(table(SC$group, genind$other[,sr$GroupComparison]), col.labels=levels(as.factor(genind$other[,sr$GroupComparison])))
 })
 output$GroupPlotHM <- renderPlot({

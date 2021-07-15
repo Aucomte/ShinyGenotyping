@@ -16,7 +16,6 @@ observeEvent(input$Submit, {
   sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
   
   sr$filtergenindpop = input$filtergenindpop
-  
   if (sr$genindfilterbypop == "yes"){
     gi = sr$Genind
     poptoremove = c()
@@ -25,13 +24,21 @@ observeEvent(input$Submit, {
         poptoremove <- c(poptoremove, i)
       }
     }
-    gl = gi2gl(sr$Genind)
-    gl2 = gl.drop.pop(gl, pop.list = poptoremove)
-    sr$Genind = gl2gi(gl2)
+    if (length(poptoremove) != 0){
+    for(i in 1:length(poptoremove)) {
+        pop = poptoremove[i]
+        sr$table = sr$table[sr$table[sr$strata] != pop,]
+      }
+    }
+    #gl = gi2gl(sr$Genind)
+    #gl2 = gl.drop.pop(gl, pop.list = poptoremove)
+    #sr$Genind = gl2gi(gl2)
+    
+    sr$Genind <- CreateGenindObject(sr$table, sr$checkboxcol, sr$strata, sr$genindtype, sr$ploidy_number)
+    sr$poptoremove = poptoremove
     sr$haplotype_out = haplotypes(sr$Genind)
     sr$haplotypeloc_out = haplotypesLocus(sr$table, sr$checkboxcol, sr$haplotype_out)
   }
-  
   updateSelectInput(session, "datasetMSN", choices = "genind", selected = "genind")
   
 })
@@ -44,6 +51,12 @@ output$numberOfHaplo <- renderText({
 output$numberOfind<- renderText({
   y = nrow(sr$haplotype_out)
   paste("Number of Individuals: ", y, sep = "")
+})
+# texte pop removed
+output$populationremoved <- renderText({
+  k = ""
+  for (i in 1:length(sr$poptoremove)){k=paste(poptoremove[i], k, sep=" ")}
+  paste("population removed because they had so few individuals: ", k, sep = "")
 })
 
 output$genindStat<- renderPrint({

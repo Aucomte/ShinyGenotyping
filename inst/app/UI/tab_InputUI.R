@@ -8,7 +8,7 @@ tabItem(
                        radioButtons("inputtype", "What data source to use?",
                                     list("Repetition file"="rep","Genemapper Output"="genemapper-output")),
                        conditionalPanel(condition = "input.inputtype=='rep'",
-                                   fileInput("file1", "CSV File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")) %>%
+                                   fileInput("file1", "Input file (csv or txt)", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")) %>%
                                      helper(icon = "question",
                                             type = "markdown",
                                             content = "file1")
@@ -22,7 +22,7 @@ tabItem(
                                      helper(icon = "question",
                                             type = "markdown",
                                             content = "Metadata"),
-                                   fileInput("repFile", "Repetition File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))%>%
+                                   fileInput("repFile", "Locus File", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv"))%>%
                                      helper(icon = "question",
                                             type = "markdown",
                                             content = "repFile")
@@ -36,6 +36,9 @@ tabItem(
       conditionalPanel(condition="input.tabselected2=='2'",   
                        h3("Create genotype object"),
                        checkboxGroupInput(inputId = "checkboxcol", "Loci: "),
+                       conditionalPanel(condition = "input.inputtype=='genemapper-output'",
+                          p("locus = size of locus, locus_rep = number of repetitions of the locus")
+                       ),
                        selectInput(inputId = "strata", "Population : ", choice = ""),
                        p("Some analysis will not be possible if some populations are not sufficiently represented"),
                        radioButtons(inputId = "genindfilterbypop", "Filter populations with few individuals :", choiceNames = c("yes","no"), choiceValues = c("yes","no"), selected = "no"),
@@ -80,7 +83,10 @@ tabItem(
                              fluidRow(
                                box(width = 12,
                                    textOutput("numberOfHaplo"),
-                                   textOutput("numberOfind")
+                                   textOutput("numberOfind"),
+                                   conditionalPanel(condition="input.genindfilterbypop=='yes'",
+                                       textOutput("populationremoved")
+                                   )
                                )
                              ),
                              fluidRow(

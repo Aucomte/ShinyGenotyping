@@ -12,33 +12,35 @@
   
   ## GET DATA ##S
   getData <- reactive({
-    out <- NULL
-  
-    if(input$datatype=="file" && !is.null(input$datafile)){
-      ## need to rename input file
-      oldName <- input$datafile$datapath
-      extension <- .readExt(input$datafile$name)
-      newName <- paste(input$datafile$datapath, extension, sep=".")
-      file.rename(oldName, newName)
-      
-      ## treat different types of input
-      if(extension %in% c("gtx","gen","dat","GTX","GEN","DAT")){
-        out <- import2genind(newName)
-      }
-      
-      if(extension %in% c("RData","Rdata","Rda","rda")){
-        out <- get(load(newName))
-      }
-      
-      if(extension %in% c("fasta","fa","fas","aln","FASTA","FA","FAS","ALN")){
-        out <- DNAbin2genind(fasta2DNAbin(newName))
-      }
-    }
-    else if(input$dataset=="Input"){
-      Input <- sr$Genind
-        out <- get(input$dataset)
-        updateSelectInput(session, "groupslider", choices = colnames(out$other)) 
-    }
+    # out <- NULL
+    # 
+    # if(input$datatype=="file" && !is.null(input$datafile)){
+    #   ## need to rename input file
+    #   oldName <- input$datafile$datapath
+    #   extension <- .readExt(input$datafile$name)
+    #   newName <- paste(input$datafile$datapath, extension, sep=".")
+    #   file.rename(oldName, newName)
+    #   
+    #   ## treat different types of input
+    #   if(extension %in% c("gtx","gen","dat","GTX","GEN","DAT")){
+    #     out <- import2genind(newName)
+    #   }
+    #   
+    #   if(extension %in% c("RData","Rdata","Rda","rda")){
+    #     out <- get(load(newName))
+    #   }
+    #   
+    #   if(extension %in% c("fasta","fa","fas","aln","FASTA","FA","FAS","ALN")){
+    #     out <- DNAbin2genind(fasta2DNAbin(newName))
+    #   }
+    # }
+    # else if(input$dataset=="Input"){
+    #     Input <- sr$Genind
+    #     out <- get(input$dataset)
+    #     updateSelectInput(session, "groupslider", choices = colnames(out$other)) 
+    # }
+    out = sr$Genind
+    updateSelectInput(session, "groupslider", choices = colnames(out$other)) 
     return(out)
   })
   
