@@ -5,6 +5,12 @@ tabItem(
     sidebarPanel(
       conditionalPanel(condition="input.tabselected2=='1'", 
                        h3("INPUT"),
+                       downloadButton("downloadData", label = "Download a test file")%>%
+                         helper(icon = "question",
+                                type = "markdown",
+                                content = "downloadData"),
+                       bsPopover("downloadData", "Example Data Set", content = "data test (repetition file + genemapper files) in a zip archive", placement = "bottom", trigger = "hover", options = NULL),
+                       HTML("<br><br>"),
                        radioButtons("inputtype", "What data source to use?",
                                     list("Repetition file"="rep","Genemapper Output"="genemapper-output")),
                        conditionalPanel(condition = "input.inputtype=='rep'",

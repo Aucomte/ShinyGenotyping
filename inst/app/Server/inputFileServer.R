@@ -13,6 +13,15 @@ observeEvent(input$Metadata,{
   sr$metadataCSV=read.csv(input$Metadata$datapath, sep = sr$sep, dec=".")
 })
 
+#download file test
+output$downloadData <- downloadHandler(
+  filename = "datatest.zip",
+  content = function(filename) {
+    file.copy("www/datatest.zip", filename)
+  },
+  contentType = "application/zip"
+)
+
 ## GET DATA ##S
 getInput <- reactive({
   out <- NULL
