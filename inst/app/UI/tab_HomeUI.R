@@ -9,6 +9,11 @@ tabItem(
          
          p("The DAPC Server is designed for the analysis of multilocus genotyping data, specifically micro/minisatellite data and Multilocus VNTR analysis (MLVA), on haploid microorganisms (bacteria and fungi)"),
         
+         h3(br(),"Github"),
+         
+         p("I recommand to download the code and use the application from github to avoid several server problems and for more feedback"),
+         a("https://github.com/Aucomte/ShinyGenotyping", href="https://github.com/Aucomte/ShinyGenotyping", target="_blank"),
+         
          h3(br(),"Citations"),
          
          br(),

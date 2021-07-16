@@ -39,7 +39,10 @@ tabItem(
                                      "Number of clusters:",
                                      min = 1,
                                      max = 100,
-                                     value = 3)
+                                     value = 3) %>%
+                                     helper(icon = "question",
+                                            type = "markdown",
+                                            content = "nclust")
         )
       ),
 
