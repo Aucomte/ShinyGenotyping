@@ -33,9 +33,6 @@ tabItem(
          
          ## poppr
          br(),
-         box(width = 12,
-          p("The minimum spaning network (msn) tab was adapted from the code written by the adegenet team. They have their own msn shiny application (named imsn) : https://github.com/grunwaldlab/poppr")
-         ),
          h4("Citation for poppr:"),
          
          p("Kamvar ZN, Tabima JF, Grünwald NJ (2014). “\textit{Poppr}: an R package for genetic analysis of populations with clonal, partially clonal, and/or sexual reproduction.” PeerJ, 2, e281. ISSN 2167-8359, doi: 10.7717/peerj.281, https://doi.org/10.7717/peerj.281."),

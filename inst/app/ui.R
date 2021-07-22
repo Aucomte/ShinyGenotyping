@@ -37,8 +37,8 @@ sidebar <- dashboardSidebar(
     menuItem("Statistics", tabName = "stats", icon = icon("calculator")),
     menuItem("Find K", tabName = "FindK", icon = icon("calculator")),
     #menuItem("SnapClust", tabName = "SnapClust", icon = icon("calculator")),
-    menuItem("DAPC", tabName = "DAPC", icon = icon("calculator")),
-    menuItem("Session Info", tabName = "SI", icon = icon("book-open"))
+    menuItem("DAPC", tabName = "DAPC", icon = icon("calculator"))
+    #menuItem("Session Info", tabName = "SI", icon = icon("book-open"))
   )
 )
 body <- dashboardBody(
