@@ -32,10 +32,21 @@ tabItem(
   mainPanel(
   tabsetPanel(id = "FindKtab",
               tabPanel("Snapclust", value=121,
-                  p("The optimal number of cluster is the minimum (the elbow) of the curve."),
-                  plotOutput("dapcBIC") %>% withLoader(loader = "dnaspin"),
-                  plotOutput("dapcAIC") %>% withLoader(loader = "dnaspin"),
-                  plotOutput("dapcKIC") %>% withLoader(loader = "dnaspin")
+                  box(width = 12, class="box2", 
+                      "Two methods to select the right number of clusters for DAPC clusterisation:",
+                      br(),
+                      "- Snapclust = This function implements methods for investigating the optimal number of genetic clusters ('k') 
+                        using the fast maximum-likelihood genetic clustering approach described in Beugin et al (2018). 
+                      The method runs snapclust for varying values of 'k', and computes the requested summary statistics for each clustering solution to assess goodness of fit.",
+                      br(),
+                      "- findclusters = cluster identification using successive K-means (adegenet)"
+                      ),
+                      box(width = 12, class="box2", 
+                          "Ideally, the lowest AIC/BIC corresponds to the best model."
+                          ),
+                  box(width = 12,plotOutput("dapcBIC") %>% withLoader(loader = "dnaspin")),
+                  box(width = 12,plotOutput("dapcAIC") %>% withLoader(loader = "dnaspin")),
+                  box(width = 12,plotOutput("dapcKIC") %>% withLoader(loader = "dnaspin"))
               ),
               tabPanel("FindClusters", value=122,
                   plotOutput("PCAclusterPlot") %>% withLoader(loader = "dnaspin")

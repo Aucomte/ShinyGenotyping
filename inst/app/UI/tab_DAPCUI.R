@@ -167,7 +167,7 @@ tabItem(
       
       
       conditionalPanel(condition="input.tabDAPC == '26'",
-                       selectInput("groupslider", "Choose group:",
+                       selectInput("groupslider", "Choose a structuring factor to compare with clusters:",
                                    choices="")
       )
     ), # end sidebarPanel
@@ -220,6 +220,10 @@ tabItem(
                              admixture, and about the way in which the selection of PCA axes affects the stability of membership probabilities.")
                            ),
                   tabPanel("AssignPlot", value=231,
+                           box(width=12, class="box2",
+                             "Assignment of each individuals to one or several groups. If all the individuals have only one assignment, the DAPC is robust. 
+However, an individuals with two or more assignments can be an hybrid (with alleles coming from different groups). In this kind of case, the blue cross is the main assignment.
+                               "),
                            plotOutput("assignplot",height = "900px")
                            # box(
                            #   sliderInput("assign_evalue", label = "probalility of assignation", min = 0 ,max = 1,step=0.1, value=0.9)
@@ -285,10 +289,12 @@ tabItem(
 #           see Glossary) which is selected if 'Use suggested number of PCA components?' is ticked.",br(),br(),br())
 #                  ),
                   tabPanel("Group Representation", value=26,
+                           box(width = 12, class = "box2", "Comparison of the repartition of the individuals between the DAPC clusters and a chosen factor."),
                            plotOutput("representationplot"),
                            plotOutput("representationHM")
                   ),
                   tabPanel("DAPC groups", value=27,
+                           box(width = 12, class = "box2", "Assignation of the individuals to the different DAPC clusters"),
                            DTOutput("downDAPCgroups")
                   )
                   

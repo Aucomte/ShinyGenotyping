@@ -84,25 +84,27 @@
   color: #ffffff;
 }
 
-/* logo */
+/* logo
 .skin-yellow .main-header .logo {
 					  background-color: #626E60;
 					  }
-
-/* logo when hovered */
+ */
+/* logo when hovered
 .skin-yellow .main-header .logo:hover {
 					  background-color: #626E60;
 					  }
-
-/* navbar (rest of the header) */
+ */
+/* navbar (rest of the header)
 .skin-yellow .main-header .navbar {
 					  background-color: #626E60; 
 					  }
 
-/* main sidebar */
+ */
+/* main sidebar 
 .skin-yellow .main-sidebar {
 					  background-color: #626E60; 
 					  }
+					  */
 
 /* active selected tab in the sidebarmenu */
 .skin-yellow .main-sidebar .sidebar .sidebar-menu .active a{
@@ -113,25 +115,25 @@
 
 /* other links in the sidebarmenu */
 .skin-yellow .main-sidebar .sidebar .sidebar-menu a{
-					  background-color: #626E60;
+					  background-color: #866700;
 					  color: #FFFFFF;
 				      border-radius: 20px;
 					  }
 
 /* other links in the sidebarmenu when hovered */
  .skin-yellow .main-sidebar .sidebar .sidebar-menu a:hover{
-					  background-color: #3C3C3C;
+					  background-color: #5f4900;
 					  color: #FFFFFF;
 					  border-radius: 20px;
-                      border-left-color: #3C3C3C; 
+                      border-left-color: #5f4900; 
 					  }
 
 /* toggle button when hovered  */
  .skin-yellow .main-header .navbar .sidebar-toggle:hover{
-					  background-color: #3C3C3C;
+					  background-color: #5f4900;
 					  color: #FFFFFF;
 					  border-radius: 20px;
-                      border-left-color: #3C3C3C;
+                      border-left-color: #5f4900;
 					  }
 
 .skin-yellow .main-header .navbar .sidebar-toggle{
@@ -160,6 +162,12 @@
  word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
-.fa-
+.nav-tabs > li > a {
+  color: #cf7b00 ;
+  font-weight: bold;
+}
 
-
+.fa-question {
+  font-size: 20px ;
+  color: red !important;
+}

@@ -42,7 +42,7 @@ sidebar <- dashboardSidebar(
   )
 )
 body <- dashboardBody(
-  #includeCSS('www/styles.css'),
+  includeCSS('www/styles.css'),
   useShinyjs(),
   useShinyFeedback(),
   #tags$head(tags$script(HTML(js))),
@@ -58,15 +58,15 @@ body <- dashboardBody(
     
     source(file.path("UI", "tab_DAPCUI.R"), local = TRUE, chdir = TRUE)$value,
     
-    source(file.path("UI", "tab_SnapClustUI.R"), local = TRUE, chdir = TRUE)$value,
+    source(file.path("UI", "tab_SnapClustUI.R"), local = TRUE, chdir = TRUE)$value
     
-    tabItem(
-      tabName = "SI",
-      fluidRow(
-        verbatimTextOutput("urlText1"),
-        verbatimTextOutput("urlText2")
-      )
-    )
+    #tabItem(
+    #  tabName = "SI",
+    #  fluidRow(
+    #    verbatimTextOutput("urlText1"),
+    #    verbatimTextOutput("urlText2")
+    #  )
+    #)
   )
 )
 shinyUI(

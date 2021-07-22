@@ -13,4 +13,9 @@ The following statistics, defined in eq.7.38– 7.43 pp.164–5 of Nei (1987) ar
     
 Here, the p_{ki} are unweighted by sample size. These statistics are estimated for each locus and an overall loci estimates is also given, as the unweighted average of the per locus estimates. In this way, monomorphic loci are accounted for (with estimated value of 0) in the overall estimates.
 Note that the equations used here all rely on genotypic rather than allelic number and are corrected for heterozygosity.
-Written from Notes of the hierfstat ::basic.stats function (Author :Jerome Goudet (jerome.goudet@unil.ch)). For further details, please consult these notes.
+Written from Notes of the hierfstat::basic.stats function (Author :Jerome Goudet (jerome.goudet@unil.ch)). For further details, please consult these notes.
+
+*References*
+- Nei M. (1987) Molecular Evolutionary Genetics. Columbia University Press
+- Jost L (2008) GST and its relatives do not measure differentiation. Molecular Ecology, 17, 4015-4026.
+- Nei M, Chesser R (1983) Estimation of fixation indexes and gene diversities. Annals of Human Genetics, 47, 253-259.

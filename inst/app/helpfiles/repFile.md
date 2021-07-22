@@ -1,4 +1,4 @@
-Your repetition file should be in CSV format. Your columns should have a header. 
+Your repetition file should be in CSV or TXT format. Your columns should have a header. 
 
 Your locus column should be named **Locus** and contain the name of your locus. Each locus names should at least contain a letter.
 The second column should be the **motif size**.

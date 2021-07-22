@@ -56,7 +56,7 @@ output$numberOfind<- renderText({
 output$populationremoved <- renderText({
   k = ""
   for (i in 1:length(sr$poptoremove)){k=paste(poptoremove[i], k, sep=" ")}
-  paste("population removed because they had so few individuals: ", k, sep = "")
+  paste("population removed because they have not enough individuals: ", k, sep = "")
 })
 
 output$genindStat<- renderPrint({

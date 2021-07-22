@@ -1,4 +1,4 @@
-Your file should be in CSV format. Your columns should have a header. 
+Your file should be in CSV or TXT format. Your columns should have a header. 
 
 Your Strain column should be named **Strain** and contain the name of your strains. Each strain names should at least contain a letter.
 Your Allele column should be named **Allele 1**

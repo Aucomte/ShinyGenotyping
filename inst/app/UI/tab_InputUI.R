@@ -60,7 +60,11 @@ tabItem(
       tabsetPanel(id = "tabselected2",
                   tabPanel("input", value=1,
                            fluidRow(
-                             box(width = 12, "After submitting, please fill in the genotype object slot to indicate your loci, and the variable you choose as population."),
+                             box(width = 12, class="box2", 
+                                 "First of all, please submit your input data (in csv or txt tabulated format), either repetition file or genemapper output (see file example). Do not forget to hit submit files!
+                                 After submitting, fill in the genotype object tab to indicate your loci, the variable you choose as population and then create the genind object 
+                                 that will be used for the rest of the analyse."
+                                 ),
                              conditionalPanel(condition="input.inputtype=='genemapper-output'",
                                     conditionalPanel(condition="output.GMdataset",
                                       h3("Genemapper table :")
@@ -85,6 +89,14 @@ tabItem(
                            )
                   ),
                   tabPanel("Genotype object", value=2,
+                           box(width = 12, class="box2", 
+                               "genind = adegenet class for individual genotypes",
+                               br(),
+                               a("(rdocumentation)", href="https://www.rdocumentation.org/packages/adegenet/versions/1.0-0/topics/genind", target="_blank"),
+                               br(),
+                               "Before everithing select the loci and the population (ex: Country for the datatest) you want to work with, the his the button Submit. 
+                               If you change the parameters, do not forget to hit sumbit again."
+                           ),
                            conditionalPanel(condition= "input.Submit",
                              fluidRow(
                                box(width = 12,
@@ -96,6 +108,9 @@ tabItem(
                                )
                              ),
                              fluidRow(
+                               box(width = 12, class="box2", 
+                                   "Each haplotype have been numeroted and have a specific allelic profile. Each strain have a corresponding haplotype."
+                               ),
                                box(width = 12,
                                    h3("Table 1: Haplotypes and Strains.")
                                ),
