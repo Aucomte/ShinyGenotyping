@@ -35,11 +35,15 @@ tabItem(
                   box(width = 12, class="box2", 
                       "Two methods to select the right number of clusters for DAPC clusterisation:",
                       br(),
-                      "- Snapclust = This function implements methods for investigating the optimal number of genetic clusters ('k') 
-                        using the fast maximum-likelihood genetic clustering approach described in Beugin et al (2018). 
-                      The method runs snapclust for varying values of 'k', and computes the requested summary statistics for each clustering solution to assess goodness of fit.",
+                      "- Snapclust is a fast maximum-likelihood method, combining the advantages of both model-based and geometric approaches (Beugin et al., 2018). The optimal number of clusters (k) are estimated using both the Akaike, Kullback and Bayesian Information Criterion (AIC, KIC, BIC, respectively). Ten runs of the Expectation-Maximisation (EM) algorithm are advised to estimate an accurate K and the probability of assignment (Q) of each individual into each of the k inferred.",
                       br(),
-                      "- findclusters = cluster identification using successive K-means (adegenet)"
+                      "- The function find.clusters runs successive k-means clustering with increasing number of clusters (k) and the optimal number of clusters is selected based on lowest Bayesian information criterion (BIC) (Jombart et al., 2010). 10 to 20 runs are advised to estimate an accurate K.",
+                      br(),
+                      "References:",
+                      br(),
+                      "Beugin, M.-P., Gayet, T., Pontier, D., Devillard, S. and Jombart, T. (2018) A fast likelihood solution to the genetic clustering problem. Methods in Ecology and Evolution, 9, 4. doi: 10.1111/2041-210X.12968.",
+                      br(),                      
+                      "Jombart, T., Devillard, S. and Balloux, F. (2010) Discriminant analysis of principal components: a new method for the analysis of genetically structured populations. BMC Genet., 11, 94. doi: 10.1186/1471-2156-11-94."
                       ),
                       box(width = 12, class="box2", 
                           "Ideally, the lowest AIC/BIC corresponds to the best model."
