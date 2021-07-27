@@ -10,6 +10,14 @@ tabItem(
          
          p("The DAPC Server is designed for the analysis of multilocus genotyping data, specifically micro/minisatellite data and Multilocus VNTR analysis (MLVA), on haploid microorganisms (bacteria and fungi)")
          ),  
+         fluidRow(
+           column(6,
+              img(src='Diag1.png', align = "center")),
+           column(6,
+                img(src='Diag2.png', align = "center"))
+           ),
+         
+         fluidRow(
          h3(br(),"Github"),
          
          box(width = 12,class ="box1",
@@ -41,4 +49,5 @@ tabItem(
          )
          )
         )
+  )
 )
